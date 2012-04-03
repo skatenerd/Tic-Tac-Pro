@@ -17,6 +17,12 @@ assert_col(_) :-
                 move(point(1,0),x),
                 move(point(2,0),x)]).
 
+assert_diagonal(_) :-
+  assert_moves([move(point(0,0),x),
+                move(point(1,1),x),
+                move(point(2,2),x)]).
+
+
 test(corner) :-
   corner(0,0),
   \+corner(2,7).
@@ -44,8 +50,13 @@ test(col_detection) :-
   findall(W,winner(W),Winners),
   member(x,Winners),
   retractall(move(_,_)).
-  
 
+test(dagonal_detection) :-
+  assert_diagonal(55),
+  findall(W,winner(W),Winners),
+  member(x,Winners),
+  retractall(move(_,_)).
+  
 test(number_of_unique) :-
   num_unique([1,1,2,3,3,4,5],N),
   N=5.

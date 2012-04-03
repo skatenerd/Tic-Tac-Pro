@@ -15,16 +15,24 @@ in_bounds(point(X,Y)) :-
   Y>0.
 
 winner(P) :-
-  move(point(R,C1),P),
-  move(point(R,C2),P),
-  move(point(R,C3),P),
-  num_unique([C1,C2,C3],3).
+  move(point(R,0),P),
+  move(point(R,1),P),
+  move(point(R,2),P).
 
 winner(P) :-
-  move(point(R1,C),P),
-  move(point(R2,C),P),
-  move(point(R3,C),P),
-  num_unique([R1,R2,R3],3).
+  move(point(0,C),P),
+  move(point(1,C),P),
+  move(point(2,C),P).
+
+winner(P) :-
+  move(point(0,0),P),
+  move(point(1,1),P),
+  move(point(2,2),P).
+
+winner(P) :-
+  move(point(0,2),P),
+  move(point(1,1),P),
+  move(point(2,0),P).
 
 num_unique(L,N) :-
   list_to_set(L,S),
