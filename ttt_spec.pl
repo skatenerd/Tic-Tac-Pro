@@ -1,27 +1,20 @@
 :- use_module(ttt). 
 :- begin_tests(all).
 
-assert_moves([]) :-
-  true.
-assert_moves([H|T]) :-
-  assert(H),
-  assert_moves(T).
+assert_row(R) :-
+  assert_moves([move(point(R,0),x),
+                move(point(R,1),x),
+                move(point(R,2),x)]).
 
-assert_row(_) :-
-  assert_moves([move(point(2,0),x),
-                move(point(2,1),x),
-                move(point(2,2),x)]).
-
-assert_col(_) :-
-  assert_moves([move(point(0,0),x),
-                move(point(1,0),x),
-                move(point(2,0),x)]).
+assert_col(C) :-
+  assert_moves([move(point(0,C),x),
+                move(point(1,C),x),
+                move(point(2,C),x)]).
 
 assert_diagonal(_) :-
   assert_moves([move(point(0,0),x),
                 move(point(1,1),x),
                 move(point(2,2),x)]).
-
 
 test(corner) :-
   corner(0,0),
@@ -40,31 +33,41 @@ test(in_bounds) :-
   \+in_bounds(point(99,84)).
 
 test(row_detection) :-
-  assert_row(55),
+  assert_row(2),
   findall(W,winner(W),Winners),
   member(x,Winners),
-  retractall(move(_,_)).
+  clear_moves.
 
 test(col_detection) :-
-  assert_col(55),
+  assert_col(0),
   findall(W,winner(W),Winners),
   member(x,Winners),
-  retractall(move(_,_)).
+  clear_moves.
 
 test(dagonal_detection) :-
   assert_diagonal(55),
   findall(W,winner(W),Winners),
   member(x,Winners),
-  retractall(move(_,_)).
-  
+  clear_moves.
+
 test(number_of_unique) :-
   num_unique([1,1,2,3,3,4,5],N),
   N=5.
-  
-/*test(row_detection,
-     [setup(assert_row(_)),
-      cleanup(retractall(point(_,_)))]) :-
-  write('---------'),
-  write('---------').*/
+
+test(any) :-
+  any(check_length(3),[[1],[1],[1,2,3]]),
+  \+any(check_length(9),[[1]]).
+
+test(dumb_cpu) :-
+  dumb_cpu_move(Player,move(Point,Player)),
+  in_bounds(Point).
+
+test(dumb_cpu) :-
+  assert_col(0),
+  assert_col(1),
+  assert_moves([move(point(0,2),x),move(point(1,2),x)]),
+  dumb_cpu_move(Player,move(Point,Player)),
+  Point=point(2,2),
+  clear_moves.
 
 :-end_tests(all).
