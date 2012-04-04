@@ -1,4 +1,4 @@
-:-  module(ttt,[corner/2,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,l/1,dumb_cpu_move/2,assert_moves/1,clear_moves/0]).
+:-  module(ttt,[print_board/0,corner/2,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
 :- use_module(library(lists)).
 :- dynamic move/2.
 corner(0,0).
@@ -8,13 +8,27 @@ corner(2,0).
 col(point(_,Col_1),point(_,Col_1)).
 row(point(Row_1,_),point(Row_1,_)).
 
-assert_moves([]) :-
-  true.
-assert_moves([H|T]) :-
-  assert(H),
-  assert_moves(T).
-clear_moves :-
-  retractall(move(_,_)).
+write_square([]) :-
+  write('_').
+
+write_square([Occupant]) :-
+  write(Occupant).
+
+print_row(R) :-
+  findall(P,move(point(R,0),P),Occupants0),
+  write_square(Occupants0),
+  write('|'),
+  findall(P,move(point(R,1),P),Occupants1),
+  write_square(Occupants1),
+  write('|'),
+  findall(P,move(point(R,2),P),Occupants3),
+  write_square(Occupants3),
+  nl.
+
+print_board :-
+  print_row(0),
+  print_row(1),
+  print_row(2).
 
 check_length(Len,List) :-
   length(List,Len).
@@ -47,7 +61,7 @@ dumb_cpu_move(Player,Move) :-
   repeat,
   random(0,3,Row),
   random(0,3,Col),
-  \+move(point(Row,Col),Player),
+  \+move(point(Row,Col),_),
   Move=move(point(Row,Col),Player).
 
 col_winner(P) :-
@@ -72,5 +86,20 @@ num_unique(L,N) :-
   list_to_set(L,S),
   length(S,N).
 
-l(_) :-
-  listing.
+game([H|T]) :-
+  write('Game over, final board was'),
+  nl,
+  print_board.
+
+game([]) :-
+  write('the board is: '),
+  nl,
+  print_board, 
+  write('enter move: '),
+  read((Row,Col)),
+  nl,
+  assert(move(point(Row,Col),x)),
+  dumb_cpu_move(o,Cpu_move),
+  assert(Cpu_move),
+  findall(W,winner(W),Winners),
+  game(Winners).

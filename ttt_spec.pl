@@ -2,19 +2,22 @@
 :- begin_tests(all).
 
 assert_row(R) :-
-  assert_moves([move(point(R,0),x),
-                move(point(R,1),x),
-                move(point(R,2),x)]).
+  ttt:assert(move(point(R,0),x)),
+  ttt:assert(move(point(R,1),x)),
+  ttt:assert(move(point(R,2),x)).
 
 assert_col(C) :-
-  assert_moves([move(point(0,C),x),
-                move(point(1,C),x),
-                move(point(2,C),x)]).
+  ttt:assert(move(point(0,C),x)),
+  ttt:assert(move(point(1,C),x)),
+  ttt:assert(move(point(2,C),x)).
 
-assert_diagonal(_) :-
-  assert_moves([move(point(0,0),x),
-                move(point(1,1),x),
-                move(point(2,2),x)]).
+assert_diagonal :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(1,1),x)),
+  ttt:assert(move(point(2,2),x)).
+
+clear_moves :-
+  ttt:retractall(move(_,_)).
 
 test(corner) :-
   corner(0,0),
@@ -45,7 +48,7 @@ test(col_detection) :-
   clear_moves.
 
 test(dagonal_detection) :-
-  assert_diagonal(55),
+  assert_diagonal,
   findall(W,winner(W),Winners),
   member(x,Winners),
   clear_moves.
@@ -62,10 +65,19 @@ test(dumb_cpu) :-
   dumb_cpu_move(Player,move(Point,Player)),
   in_bounds(Point).
 
+test(printing) :-
+  assert_row(0),
+  print_board,
+  with_output_to(codes(Codes),print_board),
+  format("~s",[Codes]),
+  assertion(Codes="x|x|x\n_|_|_\n_|_|_\n"),
+  clear_moves.
+
 test(dumb_cpu) :-
   assert_col(0),
   assert_col(1),
-  assert_moves([move(point(0,2),x),move(point(1,2),x)]),
+  ttt:assert(move(point(0,2),x)),
+  ttt:assert(move(point(1,2),x)),
   dumb_cpu_move(Player,move(Point,Player)),
   Point=point(2,2),
   clear_moves.
