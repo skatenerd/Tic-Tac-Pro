@@ -91,6 +91,9 @@ game([H|T]) :-
   nl,
   print_board.
 
+game :-
+  game([]).
+
 game([]) :-
   write('the board is: '),
   nl,
