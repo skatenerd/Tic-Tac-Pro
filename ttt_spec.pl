@@ -19,6 +19,18 @@ assert_diagonal :-
 clear_moves :-
   ttt:retractall(move(_,_)).
 
+test(valid_input) :-
+  valid_input(0),
+  valid_input(8),
+  \+valid_input("hello"),
+  \+valid_input(33).
+
+test(get_input) :-
+  see('input.txt'),
+  get_input(I),
+  I=[1,0],
+  see(user_input).
+
 test(corner) :-
   corner(0,0),
   \+corner(2,7).
@@ -67,7 +79,6 @@ test(dumb_cpu) :-
 
 test(printing) :-
   assert_row(0),
-  print_board,
   with_output_to(codes(Codes),print_board),
   format("~s",[Codes]),
   assertion(Codes="x|x|x\n_|_|_\n_|_|_\n"),
