@@ -1,4 +1,4 @@
-:-  module(ttt,[get_input/1,valid_inputs/1,valid_input/1,print_board/0,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
+:-  module(ttt,[ai_winner/1,get_input/1,valid_inputs/1,valid_input/1,print_board/0,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
 :- use_module(library(lists)).
 :- dynamic move/2.
 col(point(_,Col_1),point(_,Col_1)).
@@ -71,43 +71,40 @@ in_bounds(point(X,Y)) :-
   Y>0.
 
 winner(P) :-
-  write(P),
-  col_winner(P).
+  winner(ttt:move,P).
 
-winner(P) :-
-  row_winner(P).
+ai_winner(P) :-
+  winner(ai:real_or_imagined_move,P).
 
-winner(P) :-
-  diagonal_winner(P).
+winner(Move_predicate, P) :-
+  col_winner(Move_predicate, P).
 
-any(_,[]) :-
-  false.
+winner(Move_predicate, P) :-
+  row_winner(Move_predicate, P).
 
-any(P,[H|_]) :-
-  call(P,H).
+winner(Move_predicate, P) :-
+  diagonal_winner(Move_predicate, P).
 
-any(P,[_|T]) :-
-  any(P,T).
 
-col_winner(P) :-
+col_winner(Move_predicate, P) :-
   /*findall(M,bagof(R,move(point(R,_),P),M),Z),
   any(check_length(3),Z).*/
-  move(point(0,C),P),
-  move(point(1,C),P),
-  move(point(2,C),P).
+  call(Move_predicate,point(0,C),P),
+  call(Move_predicate,point(1,C),P),
+  call(Move_predicate,point(2,C),P).
   
-row_winner(P) :-
+row_winner(Move_predicate, P) :-
   /*findall(M,bagof(C,move(point(_,C),P),M),Z),
   any(check_length(3),Z).*/
-  move(point(R,0),P),
-  move(point(R,1),P),
-  move(point(R,2),P).
+  call(Move_predicate,point(R,0),P),
+  call(Move_predicate,point(R,1),P),
+  call(Move_predicate,point(R,2),P).
   
 
-diagonal_winner(P) :-
-  move(point(0,0),P),
-  move(point(1,1),P),
-  move(point(2,2),P).
+diagonal_winner(Move_predicate, P) :-
+  call(Move_predicate,point(0,0),P),
+  call(Move_predicate,point(1,1),P),
+  call(Move_predicate,point(2,2),P).
 
 diagonal_winner(P) :-
   move(point(0,2),P),
@@ -146,3 +143,12 @@ dumb_cpu_move(Player,Move) :-
   unoccupied(Row,Col),
   Move=move(point(Row,Col),Player).
 
+
+any(_,[]) :-
+  false.
+
+any(P,[H|_]) :-
+  call(P,H).
+
+any(P,[_|T]) :-
+  any(P,T).

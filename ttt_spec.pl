@@ -33,7 +33,7 @@ test(valid_inputs) :-
   assert_row(1,o),
   valid_inputs(Z),
   [H|T]=Z,
-  H=point(_,_),
+  H=point(2,0),
   length(Z,3).
 
 /*test(get_input) :-
@@ -62,15 +62,24 @@ test(row_detection) :-
 
 test(col_detection) :-
   assert_col(0),
-  findall(W,winner(W),Winners),
+  findall(W,ai_winner(W),Winners),
   member(x,Winners),
   clear_moves.
 
-test(dagonal_detection) :-
+test(diagonal_detection) :-
   assert_diagonal,
   findall(W,winner(W),Winners),
   member(x,Winners),
   clear_moves.
+
+test(detects_wins_asserted_by_ai) :-
+  ttt:assert(move(point(0,0),o)),
+  ttt:assert(move(point(0,1),o)),
+  ai:assert(move(point(0,2),o)),
+  findall(W,winner(W),Winners),
+  member(o,Winners),
+  clear_moves,
+  ai:retractall(move(_,_)).
 
 test(number_of_unique) :-
   num_unique([1,1,2,3,3,4,5],N),
@@ -82,7 +91,8 @@ test(any) :-
 
 test(dumb_cpu) :-
   dumb_cpu_move(Player,move(Point,Player)),
-  in_bounds(Point).
+  in_bounds(Point),
+  clear_moves.
 
 test(printing) :-
   assert_row(0,x),
