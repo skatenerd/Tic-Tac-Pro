@@ -9,12 +9,13 @@ score_from_current_winner(Score,[o]) :-
   Score = -1.
 
 score_from_current_winner(Score,[]) :-
-  Score=0.
+  false.
 
 score_world(Score) :-
   findall(W,winner(W),Winners),
   score_from_current_winner(Score,Winners).
 
-/*smart_score(Score) :-
-  score_world(Obvious_score),*/
-  
+score_world(Score) :-
+  findall(W,winner(W),Winners),
+  Winners=[],
+  Score=0.

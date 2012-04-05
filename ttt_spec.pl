@@ -28,6 +28,14 @@ test(valid_input) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
+test(valid_inputs) :-
+  assert_row(0,o),
+  assert_row(1,o),
+  valid_inputs(Z),
+  [H|T]=Z,
+  H=point(_,_),
+  length(Z,3).
+
 /*test(get_input) :-
   see('input.txt'),
   get_input(I),
