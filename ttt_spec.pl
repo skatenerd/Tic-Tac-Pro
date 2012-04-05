@@ -1,10 +1,10 @@
+:- module(ttt_spec,[assert_row/2,clear_moves/0]).
 :- use_module(ttt). 
-:- begin_tests(all).
 
-assert_row(R) :-
-  ttt:assert(move(point(R,0),x)),
-  ttt:assert(move(point(R,1),x)),
-  ttt:assert(move(point(R,2),x)).
+assert_row(R,P) :-
+  ttt:assert(move(point(R,0),P)),
+  ttt:assert(move(point(R,1),P)),
+  ttt:assert(move(point(R,2),P)).
 
 assert_col(C) :-
   ttt:assert(move(point(0,C),x)),
@@ -19,21 +19,20 @@ assert_diagonal :-
 clear_moves :-
   ttt:retractall(move(_,_)).
 
+:- begin_tests(ttt).
+
+
 test(valid_input) :-
   valid_input(0),
   valid_input(8),
   \+valid_input("hello"),
   \+valid_input(33).
 
-test(get_input) :-
+/*test(get_input) :-
   see('input.txt'),
   get_input(I),
   I=[1,0],
-  see(user_input).
-
-test(corner) :-
-  corner(0,0),
-  \+corner(2,7).
+  see(user_input).*/
 
 test(col) :-
   col(point(2,5),point(7,5)),
@@ -48,7 +47,7 @@ test(in_bounds) :-
   \+in_bounds(point(99,84)).
 
 test(row_detection) :-
-  assert_row(2),
+  assert_row(2,x),
   findall(W,winner(W),Winners),
   member(x,Winners),
   clear_moves.
@@ -78,11 +77,19 @@ test(dumb_cpu) :-
   in_bounds(Point).
 
 test(printing) :-
-  assert_row(0),
+  assert_row(0,x),
   with_output_to(codes(Codes),print_board),
   format("~s",[Codes]),
   assertion(Codes="x|x|x\n_|_|_\n_|_|_\n"),
   clear_moves.
+
+test(all_winners) :-
+  assert_row(0,o),
+  findall(W,winner(W),Winners),
+  assertion(Winners=[o]),
+  findall(S,winner(S),Other_winners),
+  assertion(\+Other_winners=[x]).
+
 
 test(dumb_cpu) :-
   assert_col(0),
@@ -93,4 +100,4 @@ test(dumb_cpu) :-
   Point=point(2,2),
   clear_moves.
 
-:-end_tests(all).
+:-end_tests(ttt).

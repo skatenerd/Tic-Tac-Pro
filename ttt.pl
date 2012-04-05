@@ -1,13 +1,8 @@
-:-  module(ttt,[get_input/1,valid_input/1,print_board/0,corner/2,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
+:-  module(ttt,[get_input/1,valid_input/1,print_board/0,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
 :- use_module(library(lists)).
 :- dynamic move/2.
-corner(0,0).
-corner(2,2).
-corner(0,2).
-corner(2,0).
 col(point(_,Col_1),point(_,Col_1)).
 row(point(Row_1,_),point(Row_1,_)).
-
 
 valid_input(Input) :-
   integer(Input),
@@ -20,7 +15,6 @@ input_to_row_col(Input,Row,Col) :-
   Row is Input//3,
   Col is Input mod 3.
 
-
 get_input(Input) :-
   repeat,
   write('Please enter input 0-8 corresponding to unoccupied square'),nl,
@@ -29,7 +23,6 @@ get_input(Input) :-
   input_to_row_col(Current_input,Row,Col),
   unoccupied(Row,Col),
   Input=[Row,Col].
-  
 
 write_square([]) :-
   write('_').
@@ -63,6 +56,7 @@ in_bounds(point(X,Y)) :-
   Y>0.
 
 winner(P) :-
+  write(P),
   col_winner(P).
 
 winner(P) :-
@@ -80,20 +74,20 @@ any(P,[H|_]) :-
 any(P,[_|T]) :-
   any(P,T).
 
-dumb_cpu_move(Player,Move) :-
-  repeat,
-  random(0,3,Row),
-  random(0,3,Col),
-  unoccupied(Row,Col),
-  Move=move(point(Row,Col),Player).
-
 col_winner(P) :-
-  findall(M,bagof(R,move(point(R,C),P),M),Z),
-  any(check_length(3),Z).
+  /*findall(M,bagof(R,move(point(R,_),P),M),Z),
+  any(check_length(3),Z).*/
+  move(point(0,C),P),
+  move(point(1,C),P),
+  move(point(2,C),P).
   
 row_winner(P) :-
-  findall(M,bagof(C,move(point(R,C),P),M),Z),
-  any(check_length(3),Z).
+  /*findall(M,bagof(C,move(point(_,C),P),M),Z),
+  any(check_length(3),Z).*/
+  move(point(R,0),P),
+  move(point(R,1),P),
+  move(point(R,2),P).
+  
 
 diagonal_winner(P) :-
   move(point(0,0),P),
@@ -109,13 +103,10 @@ num_unique(L,N) :-
   list_to_set(L,S),
   length(S,N).
 
-game([H|T]) :-
+game([_|_]) :-
   write('Game over, final board was'),
   nl,
   print_board.
-
-game :-
-  game([]).
 
 game([]) :-
   see(user_input),
@@ -129,3 +120,14 @@ game([]) :-
   assert(Cpu_move),
   findall(W,winner(W),Winners),
   game(Winners).
+
+game :-
+  game([]).
+
+dumb_cpu_move(Player,Move) :-
+  repeat,
+  random(0,3,Row),
+  random(0,3,Col),
+  unoccupied(Row,Col),
+  Move=move(point(Row,Col),Player).
+
