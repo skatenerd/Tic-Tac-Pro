@@ -21,7 +21,6 @@ clear_moves :-
 
 :- begin_tests(ttt).
 
-
 test(valid_input) :-
   valid_input(0),
   valid_input(8),
@@ -44,36 +43,7 @@ test(row) :-
   row(point(2,5),point(2,7)),
   \+row(point(2,5),point(3,5)).
 
-test(row_detection) :-
-  assert_row(2,x),
-  findall(W,winner(W),Winners),
-  member(x,Winners),
-  clear_moves.
 
-test(col_detection) :-
-  assert_col(0),
-  findall(W,ai_winner(W),Winners),
-  member(x,Winners),
-  clear_moves.
-
-test(diagonal_detection) :-
-  assert_diagonal(x),
-  ttt:assert(move(point(0,0),o)),
-  ttt:assert(move(point(0,1),o)),
-  findall(W,winner(W),Winners),
-  member(x,Winners),
-  clear_moves.
-
-test(detects_wins_asserted_by_ai) :-
-  ttt:assert(move(point(0,0),o)),
-  ttt:assert(move(point(0,1),o)),
-  ai:assert(move(point(0,2),o)),
-  ttt:assert(move(point(1,0),x)),
-  ttt:assert(move(point(2,0),x)),
-  findall(W,winner(W),Winners),
-  member(o,Winners),
-  clear_moves,
-  ai:retractall(move(_,_)).
 
 test(number_of_unique) :-
   num_unique([1,1,2,3,3,4,5],N),
@@ -88,18 +58,6 @@ test(dumb_cpu) :-
   point(Row,Col)=Point,
   in_valid_range(Row,Col),
   clear_moves.
-
-
-test(all_winners) :-
-  assert_row(0,o),
-  ttt:assert(move(point(1,1),x)),
-  ttt:assert(move(point(2,2),x)),
-  findall(W,winner(W),Winners),
-  assertion(Winners=[o]),
-  findall(S,winner(S),Other_winners),
-  assertion(\+Other_winners=[x]),
-  clear_moves.
-
 
 test(dumb_cpu) :-
   assert_col(0),
