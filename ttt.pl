@@ -1,11 +1,14 @@
-:-  module(ttt,[ai_winner/1,get_input/1,valid_inputs/1,valid_input/1,print_board/0,col/2,row/2,in_bounds/1,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
+:-  module(ttt,[in_valid_range/2,ai_winner/1,get_input/1,valid_inputs/1,valid_input/1,print_board/0,col/2,row/2,winner/1,move/2,num_unique/2,any/2,check_length/2,dumb_cpu_move/2]).
 :- use_module(library(lists)).
 :- dynamic move/2.
 col(point(_,Col_1),point(_,Col_1)).
 row(point(Row_1,_),point(Row_1,_)).
 
 unoccupied(Row,Col) :-
-  \+move(point(Row,Col),_).
+  unoccupied(ttt:move,Row,Col).
+
+unoccupied(Move_predicate,Row,Col) :-
+  \+call(Move_predicate,point(Row,Col),_).
 
 input_to_row_col(Input,Row,Col) :-
   Row is Input//3,
@@ -23,13 +26,17 @@ legal([Row,Col]) :-
 legal(point(Row,Col)) :-
   legal([Row,Col]).
 
+ai_legal(point(Row,Col)) :-
+  in_valid_range(Row,Col),
+  unoccupied(ai:real_or_imagined_move,Row,Col).
+
 in_valid_range(Row,Col) :-
   between(0,2,Row),
   between(0,2,Col).
 
 valid_inputs(Valid_inputs) :-
   findall(point(Row,Col),in_valid_range(Row,Col),Inputs),
-  include(legal,Inputs,Valid_inputs).
+  include(ai_legal,Inputs,Valid_inputs).
 
 get_input(Input) :-
   repeat,
@@ -64,25 +71,28 @@ print_board :-
 check_length(Len,List) :-
   length(List,Len).
 
-in_bounds(point(X,Y)) :-
-  X<3,
-  X>0,
-  Y<3,
-  Y>0.
-
 winner(P) :-
+  findall(_,move(_,_),Moves),
+  length(Moves,N),
+  N>4,
   winner(ttt:move,P).
 
 ai_winner(P) :-
+  findall(_,ai:real_or_imagined_move(_,_),Moves),
+  length(Moves,N),
+  N>4,
   winner(ai:real_or_imagined_move,P).
 
 winner(Move_predicate, P) :-
+  moves_constitute_win(Move_predicate, P).
+
+moves_constitute_win(Move_predicate, P) :-
   col_winner(Move_predicate, P).
 
-winner(Move_predicate, P) :-
+moves_constitute_win(Move_predicate, P) :-
   row_winner(Move_predicate, P).
 
-winner(Move_predicate, P) :-
+moves_constitute_win(Move_predicate, P) :-
   diagonal_winner(Move_predicate, P).
 
 

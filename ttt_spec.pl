@@ -11,7 +11,7 @@ assert_col(C) :-
   ttt:assert(move(point(1,C),x)),
   ttt:assert(move(point(2,C),x)).
 
-assert_diagonal :-
+assert_diagonal(P) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(1,1),x)),
   ttt:assert(move(point(2,2),x)).
@@ -50,10 +50,6 @@ test(row) :-
   row(point(2,5),point(2,7)),
   \+row(point(2,5),point(3,5)).
 
-test(in_bounds) :-
-  in_bounds(point(2,2)),
-  \+in_bounds(point(99,84)).
-
 test(row_detection) :-
   assert_row(2,x),
   findall(W,winner(W),Winners),
@@ -67,7 +63,9 @@ test(col_detection) :-
   clear_moves.
 
 test(diagonal_detection) :-
-  assert_diagonal,
+  assert_diagonal(x),
+  ttt:assert(move(point(0,0),o)),
+  ttt:assert(move(point(0,1),o)),
   findall(W,winner(W),Winners),
   member(x,Winners),
   clear_moves.
@@ -76,6 +74,8 @@ test(detects_wins_asserted_by_ai) :-
   ttt:assert(move(point(0,0),o)),
   ttt:assert(move(point(0,1),o)),
   ai:assert(move(point(0,2),o)),
+  ttt:assert(move(point(1,0),x)),
+  ttt:assert(move(point(2,0),x)),
   findall(W,winner(W),Winners),
   member(o,Winners),
   clear_moves,
@@ -91,7 +91,8 @@ test(any) :-
 
 test(dumb_cpu) :-
   dumb_cpu_move(Player,move(Point,Player)),
-  in_bounds(Point),
+  point(Row,Col)=Point,
+  in_valid_range(Row,Col),
   clear_moves.
 
 test(printing) :-
@@ -103,10 +104,13 @@ test(printing) :-
 
 test(all_winners) :-
   assert_row(0,o),
+  ttt:assert(move(point(1,1),x)),
+  ttt:assert(move(point(2,2),x)),
   findall(W,winner(W),Winners),
   assertion(Winners=[o]),
   findall(S,winner(S),Other_winners),
-  assertion(\+Other_winners=[x]).
+  assertion(\+Other_winners=[x]),
+  clear_moves.
 
 
 test(dumb_cpu) :-
