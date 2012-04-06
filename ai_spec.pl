@@ -27,7 +27,15 @@ test(imminent_victories) :-
   ttt:assert(move(point(0,0),o)),
   ttt:assert(move(point(0,1),o)),
   findall(Score, score_world(Score,o), Scores),
+  write(Scores),
   assertion(Scores=[-1]).
+
+test(imminent_victories) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(0,1),x)),
+  findall(Score, score_world(Score,x), Scores),
+  write(Scores),
+  assertion(Scores=[1]).
 
 
 :- end_tests(ai).
