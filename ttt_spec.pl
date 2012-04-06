@@ -36,12 +36,6 @@ test(valid_inputs) :-
   H=point(2,0),
   length(Z,3).
 
-/*test(get_input) :-
-  see('input.txt'),
-  get_input(I),
-  I=[1,0],
-  see(user_input).*/
-
 test(col) :-
   col(point(2,5),point(7,5)),
   \+col(point(2,5),point(2,4)).
@@ -95,12 +89,6 @@ test(dumb_cpu) :-
   in_valid_range(Row,Col),
   clear_moves.
 
-test(printing) :-
-  assert_row(0,x),
-  with_output_to(codes(Codes),print_board),
-  format("~s",[Codes]),
-  assertion(Codes="x|x|x\n_|_|_\n_|_|_\n"),
-  clear_moves.
 
 test(all_winners) :-
   assert_row(0,o),
