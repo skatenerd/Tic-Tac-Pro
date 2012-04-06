@@ -1,11 +1,10 @@
 :-  module(ai,[score_world/2]).
-:- dynamic ai_move/2.
+:- use_module(board_utils).
 
 score_from_current_winner(Score,[x|_]) :-
   Score=1.
 
 score_from_current_winner(Score,[o|_]) :-
-  /*fix me*/
   Score = -1.
 
 score_from_current_winner(Score,[]) :-

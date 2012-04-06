@@ -21,14 +21,14 @@ test(o_already_won,
 test(inevitable_tie,
      [cleanup(ttt_spec:clear_moves)]) :-
   ttt:assert(move(point(0,0),x)),
-  ttt:assert(move(point(0,1),x)),
-  ttt:assert(move(point(0,2),o)),
-  ttt:assert(move(point(1,0),x)),
-  ttt:assert(move(point(1,1),o)),
+  ttt:assert(move(point(0,1),o)),
+  ttt:assert(move(point(0,2),x)),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),x)),
   ttt:assert(move(point(1,2),o)),
   ttt:assert(move(point(2,0),o)),
-  ttt:assert(move(point(2,1),o)),
-  assertion(score_world(0,x)).
+  ttt:assert(move(point(2,1),x)),
+  assertion(score_world(0,o)).
 
 test(score_empty) :-
   findall(Score, score_world(Score,x), Scores),
