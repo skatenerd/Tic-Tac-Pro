@@ -15,7 +15,7 @@ test(diagonal_detection) :-
 test(detects_wins_asserted_by_ai) :-
   ttt:assert(move(point(0,0),o)),
   ttt:assert(move(point(0,1),o)),
-  ai:assert(move(point(0,2),o)),
+  ai:assert(imagined_move(point(0,2),o)),
   ttt:assert(move(point(1,0),x)),
   ttt:assert(move(point(2,0),x)),
   findall(W,ai_winner(W),Winners),

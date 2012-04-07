@@ -1,5 +1,6 @@
 :-  module(ai,[legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
 :- use_module(board_utils).
+:- dynamic imagined_move/2.
 
 other_player(o,Other) :-
   Other=x.
@@ -36,10 +37,7 @@ score_world(Score, Player) :-
   Score=Naive_score.
 
 score_world(Score,Player) :-
-  findall(W, ai_winner(W), Winners),
-  Winners=[],
   findall(point(R,C),legal_imagined_move(R,C),Valid_input_points),
-  length(Valid_input_points,N),
   score_future_boards(Scores, Valid_input_points, Player),
   player_score_pred(Player, Pred),
   call(Pred, Score, Scores).
@@ -48,21 +46,20 @@ score_future_boards(Scores, [], Player) :-
   Scores=[].
 
 score_future_boards(Scores, [H|T], Player) :-
-  assert(move(H, Player)),
-  /*findall(W, ai_winner(W), Winners),
-  score_from_current_winner(Score, Winners),*/
+  assert(imagined_move(H, Player)),
+  findall([P,Pl],imagined_move(P,Pl),Zs),
   other_player(Player,Other),
   score_world(Score, Other),
-  retract(move(H, Player)),
+  retract(imagined_move(H, Player)),
   score_future_boards(Rest_scores, T, Player),
   Scores=[Score|Rest_scores].
   
 
 real_or_imagined_move(Point, Player) :-
-  move(Point, Player).
+  ttt:move(Point, Player).
 
 real_or_imagined_move(Point, Player) :-
-  ttt:move(Point, Player).
+  imagined_move(Point, Player).
 
 legal_imagined_move(Row,Col) :-
   board_utils:legal(ai:real_or_imagined_move,[Row,Col]).

@@ -26,7 +26,7 @@ test(dumb_cpu,
 test(legal_imagined_moves,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,o),
-  ai:assert(move(point(2,2),x)),
+  ai:assert(imagined_move(point(2,2),x)),
   legal_imagined_move(2,0),
   \+legal_imagined_move(0,0),
   \+legal_imagined_move(2,2),
@@ -36,18 +36,18 @@ test(legal_imagined_moves,
 test(x_already_won,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,x),
-  assertion(score_world(1,x)),
-  \+score_world(0,x),
+  assertion(score_world(1,x)).
+/*  \+score_world(0,x),
   findall(Score, score_world(Score,o), Scores),
-  assertion(Scores=[1]).
+  assertion(Scores=[1]).*/
 
 
 test(o_already_won,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,o),
   assertion(score_world(-1,x)),
-  findall(Score, score_world(Score,o), Scores),
-  assertion(Scores=[-1]).
+/*  findall(Score, score_world(Score,o), Scores),
+  assertion(Scores=[-1]).*/
 
 test(inevitable_tie,
      [cleanup(cleanup)]) :-
@@ -60,6 +60,7 @@ test(inevitable_tie,
   ttt:assert(move(point(2,0),o)),
   ttt:assert(move(point(2,1),x)),
   assertion(score_world(0,o)).
+/*assertion(\+score_world(1,o)).*/
 /*
 test(score_empty) :-
   findall(Score, score_world(Score,x), Scores),
@@ -78,13 +79,15 @@ test(imminent_o_victory,
   /*findall(Score, score_world(Score,o), Scores),
   assertion(Scores=[-1]).*/
 
-/*
+
 test(imminent_x_victory,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(0,1),x)),
+  assertion(score_world(1,o)).
+  /*assertion(Scores=[1]).
   findall(Score, score_world(Score,x), Scores),
-  assertion(Scores=[1]).
+*/
 
 test(distant_victories,
      [cleanup(ttt_spec:clear_moves)]) :-
@@ -92,10 +95,11 @@ test(distant_victories,
   ttt:assert(move(point(0,2),x)),
   ttt:assert(move(point(2,2),x)),
   ttt:assert(move(point(1,1),o)),
-  findall(Score, score_world(Score,o), Scores),
-  assertion(Scores=[1]),
   assertion(score_world(1,o)).
- */ 
+  /*assertion(Scores=[1]),
+  findall(Score, score_world(Score,o), Scores),
+*/
+
 
 
 
