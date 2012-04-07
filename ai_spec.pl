@@ -102,10 +102,8 @@ test(distant_victories,
 test(distant_victories,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
-  ttt:assert(move(point(0,2),x)),
-  ttt:assert(move(point(2,2),x)),
-  ttt:assert(move(point(1,1),o)),
-  assertion(score_world(1,o)).
+  ttt:assert(move(point(0,2),o)),
+  assertion(score_world(1,x)).
 
 
 :- end_tests(ai).

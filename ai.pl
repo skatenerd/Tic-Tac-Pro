@@ -64,8 +64,6 @@ real_or_imagined_move(Point, Player) :-
 legal_imagined_move(Row,Col) :-
   board_utils:legal(ai:real_or_imagined_move,[Row,Col]).
 
-
-
 dumb_cpu_move(Player,Move) :-
   repeat,
   random(0,3,Row),
