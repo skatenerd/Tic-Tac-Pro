@@ -46,4 +46,9 @@ test(all_winners) :-
   assertion(\+Other_winners=[x]),
   ttt_spec:clear_moves.
 
+test(legality) :-
+  assert_row(0,o),
+  assert_row(1,o),
+  legal(ttt:move,[2,2]).
+
 :-end_tests(utils).

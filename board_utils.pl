@@ -1,11 +1,7 @@
-:-  module(board_utils,[ai_winner/1,col/2,row/2,winner/1,winner/2]).
-
-col(point(_,Col_1),point(_,Col_1)).
-row(point(Row_1,_),point(Row_1,_)).
+:-  module(board_utils,[board_full/1,legal/2,ai_winner/1,winner/1,winner/2]).
 
 winner(P) :-
   findall(_,ttt:move(_,_),Moves),
-  write(Moves),
   length(Moves,N),
   N>4,
   winner(ttt:move,P).
@@ -16,6 +12,13 @@ ai_winner(P) :-
   N>4,
   winner(ai:real_or_imagined_move,P).
 
+board_full(Move_predicate) :-
+  findall(_,ai:real_or_imagined_move(_,_),Moves),
+  length(Moves,N),
+  /*write(Moves),nl,
+  write(N),nl,*/
+  N>=9.
+  
 
 winner(Move_predicate, P) :-
   moves_constitute_win(Move_predicate, P).
@@ -54,3 +57,15 @@ diagonal_winner(Move_predicate, P) :-
   call(Move_predicate,point(0,2),P),
   call(Move_predicate,point(1,1),P),
   call(Move_predicate,point(2,0),P).
+
+
+unoccupied(Move_predicate,Row,Col) :-
+  \+call(Move_predicate,point(Row,Col),_).
+
+legal(Move_predicate, [Row,Col]) :-
+  in_valid_range(Row,Col),
+  unoccupied(Move_predicate,Row,Col).
+
+in_valid_range(Row,Col) :-
+  between(0,2,Row),
+  between(0,2,Col).

@@ -27,24 +27,6 @@ test(valid_input) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
-test(valid_inputs) :-
-  assert_row(0,o),
-  assert_row(1,o),
-  valid_inputs(Z),
-  [H|T]=Z,
-  H=point(2,0),
-  length(Z,3).
-
-test(col) :-
-  col(point(2,5),point(7,5)),
-  \+col(point(2,5),point(2,4)).
-
-test(row) :-
-  row(point(2,5),point(2,7)),
-  \+row(point(2,5),point(3,5)).
-
-
-
 test(number_of_unique) :-
   num_unique([1,1,2,3,3,4,5],N),
   N=5.
@@ -53,19 +35,5 @@ test(any) :-
   any(check_length(3),[[1],[1],[1,2,3]]),
   \+any(check_length(9),[[1]]).
 
-test(dumb_cpu) :-
-  dumb_cpu_move(Player,move(Point,Player)),
-  point(Row,Col)=Point,
-  in_valid_range(Row,Col),
-  clear_moves.
-
-test(dumb_cpu) :-
-  assert_col(0),
-  assert_col(1),
-  ttt:assert(move(point(0,2),x)),
-  ttt:assert(move(point(1,2),x)),
-  dumb_cpu_move(Player,move(Point,Player)),
-  Point=point(2,2),
-  clear_moves.
 
 :-end_tests(ttt).
