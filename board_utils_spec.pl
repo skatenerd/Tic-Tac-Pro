@@ -12,6 +12,14 @@ test(diagonal_detection) :-
   member(x,Winners),
   ttt_spec:clear_moves.
 
+test(board_full) :-
+  ttt_spec:assert_row(0,x),
+  \+board_full(ttt:move),
+  ttt_spec:assert_row(1,x),
+  ttt_spec:assert_row(2,x),
+  board_full(ttt:move),
+  ttt_spec:clear_moves.
+
 test(detects_wins_asserted_by_ai) :-
   ttt:assert(move(point(0,0),o)),
   ttt:assert(move(point(0,1),o)),
@@ -21,7 +29,7 @@ test(detects_wins_asserted_by_ai) :-
   findall(W,ai_winner(W),Winners),
   member(o,Winners),
   ttt_spec:clear_moves,
-  ai:retractall(move(_,_)).
+  ai:retractall(imagined_move(_,_)).
 
 test(row_detection) :-
   ttt_spec:assert_row(2,x),
@@ -49,6 +57,7 @@ test(all_winners) :-
 test(legality) :-
   assert_row(0,o),
   assert_row(1,o),
-  legal(ttt:move,[2,2]).
+  legal(ttt:move,[2,2]),
+  ttt_spec:clear_moves.
 
 :-end_tests(utils).

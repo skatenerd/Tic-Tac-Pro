@@ -4,7 +4,7 @@
 :- use_module(ttt_spec).
 
 cleanup :-
-  ai:retractall(move(_,_)),
+  ai:retractall(imagined_move(_,_)),
   ttt_spec:clear_moves.
 
 :- begin_tests(ai).
@@ -45,7 +45,7 @@ test(x_already_won,
 test(o_already_won,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,o),
-  assertion(score_world(-1,x)),
+  assertion(score_world(-1,x)).
 /*  findall(Score, score_world(Score,o), Scores),
   assertion(Scores=[-1]).*/
 
@@ -90,7 +90,7 @@ test(imminent_x_victory,
 */
 
 test(distant_victories,
-     [cleanup(ttt_spec:clear_moves)]) :-
+     [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(0,2),x)),
   ttt:assert(move(point(2,2),x)),
@@ -99,8 +99,13 @@ test(distant_victories,
   /*assertion(Scores=[1]),
   findall(Score, score_world(Score,o), Scores),
 */
-
-
+test(distant_victories,
+     [cleanup(cleanup)]) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(0,2),x)),
+  ttt:assert(move(point(2,2),x)),
+  ttt:assert(move(point(1,1),o)),
+  assertion(score_world(1,o)).
 
 
 :- end_tests(ai).

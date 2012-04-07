@@ -13,12 +13,9 @@ ai_winner(P) :-
   winner(ai:real_or_imagined_move,P).
 
 board_full(Move_predicate) :-
-  findall(_,ai:real_or_imagined_move(_,_),Moves),
+  findall(_,call(Move_predicate,_,_),Moves),
   length(Moves,N),
-  /*write(Moves),nl,
-  write(N),nl,*/
   N>=9.
-  
 
 winner(Move_predicate, P) :-
   moves_constitute_win(Move_predicate, P).

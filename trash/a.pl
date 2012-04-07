@@ -7,3 +7,8 @@ dbtest :-
   listing,
   write('-------'),
   blisting(33).
+
+big(X) :-
+  between(20,40,X),
+  X>33.
+  
