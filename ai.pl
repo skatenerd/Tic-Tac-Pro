@@ -32,6 +32,8 @@ stop_searching(Naive_score) :-
 
 score_world(Score, Player) :-
   findall(W,ai_winner(W),Winners),
+  /*findall(Naive_score,score_from_current_winner(Naive_score,Winners),Naive_scores),
+  [Naive_score]=Naive_scores,*/
   score_from_current_winner(Naive_score,Winners),
   stop_searching(Naive_score),
   Score=Naive_score.
@@ -49,7 +51,8 @@ score_future_boards(Scores, [H|T], Player) :-
   assert(imagined_move(H, Player)),
   findall([P,Pl],imagined_move(P,Pl),Zs),
   other_player(Player,Other),
-  score_world(Score, Other),
+  findall(S,score_world(S, Other),C),
+  [Score|_]=C,
   retract(imagined_move(H, Player)),
   score_future_boards(Rest_scores, T, Player),
   Scores=[Score|Rest_scores].

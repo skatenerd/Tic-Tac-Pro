@@ -36,10 +36,11 @@ test(legal_imagined_moves,
 test(x_already_won,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,x),
-  assertion(score_world(1,x)).
-/*  \+score_world(0,x),
-  findall(Score, score_world(Score,o), Scores),
-  assertion(Scores=[1]).*/
+  score_world(1,x),
+  \+score_world(0,x),
+  \+score_world(-1,x),
+  findall(Score, score_world(Score,o), Scores).
+  /*assertion(Scores=[1]).*/
 
 
 test(o_already_won,
