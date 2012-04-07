@@ -1,5 +1,9 @@
 :- module(io, [print_board/0,get_input/1]).
 
+input_to_row_col(Input,Row,Col) :-
+  Row is Input//3,
+  Col is Input mod 3.
+
 get_input(Input) :-
   repeat,
   write('Please enter input 0-8 corresponding to unoccupied square'),nl,
@@ -24,6 +28,8 @@ print_row(R) :-
   findall(P,move(point(R,2),P),Occupants3),
   write_square(Occupants3),
   nl.
+
+
 
 print_board :-
   print_row(0),

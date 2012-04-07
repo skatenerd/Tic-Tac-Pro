@@ -10,6 +10,24 @@ cleanup :-
 
 :- begin_tests(ai).
 
+test(smart_cpu,
+     [cleanup(cleanup)]) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(0,1),x)),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),o)),
+  smart_cpu_move(x,move(Point,Player)),
+  write(Point),
+  Point=point(0,2).
+
+test(smart_cpu,
+     [cleanup(cleanup)]) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(1,0),o)),
+  smart_cpu_move(x,move(Point,Player)),
+  write(Point),
+  assertion(Point=point(0,_)).
+
 test(dumb_cpu) :-
   dumb_cpu_move(o,move(Point,Player)),
   point(Row,Col)=Point,
@@ -63,7 +81,8 @@ test(inevitable_tie,
   assertion(score_world(0,o)),
   assertion(\+score_world(1,o)).
 
-test(score_empty) :-
+  test(nearly_empty,
+     [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   assertion(score_world(0,o)).
 

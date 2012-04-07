@@ -1,4 +1,4 @@
-:-  module(ai,[cache_world/1,cache/2,legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
+:-  module(ai,[smart_cpu_move/2,cache_world/1,cache/2,legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
 :- use_module(board_utils).
 :- use_module(library(lists)).
 :- dynamic imagined_move/2.
@@ -77,7 +77,7 @@ score_future_boards(Scores, [H|T], Player) :-
   recur_or_prune(Score, Scores, T, Player).
 
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
-  prune(Score,Player),  
+  prune(Cur_score,Player),  
   Scores=[Cur_score].
 
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
@@ -102,3 +102,17 @@ dumb_cpu_move(Player,Move) :-
   random(0,3,Col),
   board_utils:legal(ttt:move,[Row,Col]),
   Move=move(point(Row,Col),Player).
+
+smart_cpu_move(Player,Move) :-
+  score_world(Score,Player),
+  score_after_move(Point,Player,Score),
+  Move=move(Point,Player). 
+
+score_after_move(Point,Player,Score) :-
+  legal_imagined_move(R,C),
+  Point=point(R,C),
+  assert(imagined_move(Point,Player)),
+  other_player(Player,Other),
+  score_world(Cur_score, Other),
+  retract(imagined_move(Point,Player)),
+  Cur_score=Score.

@@ -1,15 +1,12 @@
 :-  module(ttt,[valid_input/1,move/2,num_unique/2,any/2,check_length/2]).
 :- use_module(library(lists)).
 :- use_module(board_utils).
+:- use_module(io).
 :- dynamic move/2.
-
-input_to_row_col(Input,Row,Col) :-
-  Row is Input//3,
-  Col is Input mod 3.
 
 valid_input(Input) :-
   integer(Input),
-  input_to_row_col(Input,Row,Col),
+  io:input_to_row_col(Input,Row,Col),
   board_utils:legal(move,[Row,Col]).
 
 check_length(Len,List) :-
@@ -29,10 +26,10 @@ game([]) :-
   write('the board is: '),
   nl,
   print_board, 
-  get_input([Row,Col]),
+  io:get_input([Row,Col]),
   nl,
   assert(move(point(Row,Col),x)),
-  ai:dumb_cpu_move(o,Cpu_move),
+  ai:smart_cpu_move(o,Cpu_move),
   assert(Cpu_move),
   findall(W,winner(W),Winners),
   game(Winners).

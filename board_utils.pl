@@ -3,13 +3,13 @@
 winner(P) :-
   findall(_,ttt:move(_,_),Moves),
   length(Moves,N),
-  N>2,
+  N>4,
   winner(ttt:move,P).
 
 ai_winner(P) :-
   findall(_,ai:real_or_imagined_move(_,_),Moves),
   length(Moves,N),
-  N>2,
+  N>4,
   winner(ai:real_or_imagined_move,P).
 
 board_full(Move_predicate) :-

@@ -20,7 +20,7 @@ test(board_full) :-
   board_full(ttt:move),
   ttt_spec:clear_moves.
 
-test(detects_wins_asserted_by_ai) :-
+  test(detects_wins_asserted_by_ai) :-
   ttt:assert(move(point(0,0),o)),
   ttt:assert(move(point(0,1),o)),
   ai:assert(imagined_move(point(0,2),o)),
