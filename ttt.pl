@@ -24,16 +24,10 @@ initialize_game :-
   assert(move_source(o,cpu)),
   game_loop(x).
 
-game_over :-
-  board_full(move).
-
-game_over :-
-  findall(W,winner(W),Winners),
-  \+Winners=[].
   
 
 game_loop(_) :-
-  game_over,
+  game_over(ttt:move),
   write('Game over, final board was'),
   nl,
   print_board,

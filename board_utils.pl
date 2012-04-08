@@ -1,4 +1,11 @@
-:-  module(board_utils,[board_full/1,legal/2,winner/2]).
+:-  module(board_utils,[game_over/1,board_full/1,legal/2,winner/2]).
+
+game_over(Move_predicate) :-
+  board_full(Move_predicate).
+
+game_over(Move_predicate) :-
+  findall(W,winner(Move_predicate, W),Winners),
+  \+Winners=[].
 
 winner(Move_predicate,P) :-
   findall(_,call(Move_predicate,_,_),Moves),

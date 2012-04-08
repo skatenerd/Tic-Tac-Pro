@@ -31,11 +31,8 @@ player_score_pred(o,Pred) :-
 player_score_pred(x,Pred) :-
   Pred=max_member.
 
-stop_searching(_) :-
-  board_full(ai:real_or_imagined_move).
-
-stop_searching(Naive_score) :-
-  Naive_score\=0.
+stop_searching :-
+  game_over(ai:real_or_imagined_move).
 
 move_set(Move_set) :-
   findall(M,real_or_imagined_move(M),Moves),
@@ -77,10 +74,10 @@ score_world(Score,Player) :-
   Score=0.
 
 score_world(Score, Player) :-
+  stop_searching,
   findall(W,ai_winner(W),Winners),
   list_to_set(Winners,Winner),
   score_from_current_winner(Naive_score,Winner),
-  stop_searching(Naive_score),
   Score=Naive_score,
   cache_world(Score).
 
