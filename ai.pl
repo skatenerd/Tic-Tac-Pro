@@ -1,11 +1,13 @@
-:-  module(ai,[other_player/2, smart_cpu_move/2,cache_world/1,cache/2,legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
+:-  module(ai,[other_player/2, smart_cpu_move/2,cache_world/1,cache/1,legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
 :- use_module(board_utils).
 :- use_module(library(lists)).
+:- use_module(library(assoc)).
 :- dynamic imagined_move/2.
-:- dynamic cache/2.
+:- dynamic cache/1.
 
 prune(1,x).
 prune(-1,o).
+cache(empty).
 
 other_player(o,Other) :-
   Other=x.
@@ -41,17 +43,30 @@ move_set(Move_set) :-
   list_to_set(Moves,Move_set).
 
 cache_world(Score) :-
-  move_set(Move_set),
-  assert(cache(Move_set,Score)).
+  true.
+  /*cache(empty), 
+  retractall(cache(_)),
+  empty_assoc(New_cache),
+  assert(cache(New_cache)),
+  add_to_cache(Score).
 
-/*score_world(Score, Player) :-
+cache_world(Score) :-
+  \+cache(empty), 
+  add_to_cache(Score).
+
+add_to_cache(Score) :- 
   move_set(Move_set),
-  findall(Cached_score,cache(Move_set,Cached_score),Cached_scores),
-  list_to_set(Cached_scores,Cache_set),
-  length(Cache_set,N),
-  N>0,
-  [Cache_hit]=Cache_set,
-  Score=Cache_hit.*/
+  cache(C),
+  retractall(cache(_)),
+  put_assoc(Move_set,C,Score,New_cache),
+  assert(cache(New_cache)).
+
+score_world(Score, Player) :-
+  \+cache(empty), 
+  cache(C),
+  move_set(Move_set),
+  get_assoc(Move_set,C,Score),
+  write('hit').*/
 
 score_world(Score, Player) :-
   findall(W,ai_winner(W),Winners),

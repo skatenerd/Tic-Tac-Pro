@@ -7,7 +7,8 @@
 cleanup :-
   ai:retractall(imagined_move(_,_)),
   ttt_spec:clear_moves,
-  ai:retractall(cache(_,_)).
+  ai:retractall(cache(_)),
+  ai:assert(cache(empty)).
 
 :- begin_tests(ai).
 
@@ -33,12 +34,13 @@ test(dumb_cpu) :-
   dumb_cpu_move(o,move(Point,Player)),
   point(Row,Col)=Point,
   board_utils:in_valid_range(Row,Col).
-
+/*
 test(add_to_cache,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   cache_world(0),
-  cache([move(point(0,0),x)],0).
+  ai:cache(C),
+  get_assoc([move(point(0,0),x)],C,0).*/
 
 test(dumb_cpu,
      [cleanup(cleanup)]) :-
