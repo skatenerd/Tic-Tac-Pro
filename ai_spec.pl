@@ -6,11 +6,12 @@
 
 cleanup :-
   ai:retractall(imagined_move(_,_)),
-  ttt_spec:clear_moves.
+  ttt_spec:clear_moves,
+  ai:retractall(cache(_,_)).
 
 :- begin_tests(ai).
 
-/*test(smart_cpu,
+test(smart_cpu,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(0,1),x)),
@@ -26,7 +27,7 @@ test(smart_cpu,
   ttt:assert(move(point(1,0),o)),
   smart_cpu_move(x,move(Point,Player)),
   write(Point),
-  assertion(Point=point(0,_)).*/
+  assertion(Point=point(0,_)).
 
 test(dumb_cpu) :-
   dumb_cpu_move(o,move(Point,Player)),
@@ -61,11 +62,15 @@ test(legal_imagined_moves,
 test(x_already_won,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,x),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),o)),
   assertion(score_world(1,x)).
 
 test(o_already_won,
      [cleanup(cleanup)]) :-
   ttt_spec:assert_row(0,o),
+  ttt:assert(move(point(1,0),x)),
+  ttt:assert(move(point(1,1),x)),
   assertion(score_world(-1,x)).
 
 test(inevitable_tie,
@@ -89,21 +94,48 @@ test(inevitable_tie,
 test(imminent_o_victory,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),o)),
-  ttt:assert(move(point(0,1),o)),
+  ttt:assert(move(point(0,1),x)),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),x)),
+  ttt:assert(move(point(1,2),x)),
+  ttt:assert(move(point(2,1),o)),
+  ttt:assert(move(point(2,2),x)),
   assertion(score_world(-1,o)).
 
 test(imminent_x_victory,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(0,1),x)),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),x)),
+  ttt:assert(move(point(1,2),o)),
+  ttt:assert(move(point(2,0),x)),
+  ttt:assert(move(point(2,1),o)),
+  ttt:assert(move(point(2,2),o)),
+  assertion(score_world(1,x)).
+
+test(imminent_x_victory,
+     [cleanup(cleanup)]) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(1,1),x)),
+  ttt:assert(move(point(2,0),x)),
+  ttt:assert(move(point(2,1),o)),
+  ttt:assert(move(point(2,2),o)),
+  assertion(score_world(1,o)).
+
+test(imminent_x_victory,
+     [cleanup(cleanup)]) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(1,1),x)),
+  ttt:assert(move(point(2,1),o)),
+  ttt:assert(move(point(2,2),o)),
   assertion(score_world(1,x)).
 
 test(intelligent_victory,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
-  ttt:assert(move(point(0,2),x)),
   ttt:assert(move(point(2,2),x)),
-  ttt:assert(move(point(1,1),o)),
+  ttt:assert(move(point(2,0),o)),
   assertion(score_world(1,o)),
   assertion(\+score_world(0,o)).
 

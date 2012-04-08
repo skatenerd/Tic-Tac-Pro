@@ -14,10 +14,10 @@ other_player(x,Other) :-
   Other=o.
 
 
-score_from_current_winner(Score,[x|_]) :-
+score_from_current_winner(Score,[x]) :-
   Score=1.
 
-score_from_current_winner(Score,[o|_]) :-
+score_from_current_winner(Score,[o]) :-
   Score = -1.
 
 score_from_current_winner(Score,[]) :-
@@ -33,7 +33,8 @@ stop_searching(_) :-
   board_full(ai:real_or_imagined_move).
 
 stop_searching(Naive_score) :-
-  \+Naive_score=0.
+  /*\+Naive_score=0.*/
+  Naive_score\=0.
 
 move_set(Move_set) :-
   findall(M,real_or_imagined_move(M),Moves),
@@ -43,22 +44,26 @@ cache_world(Score) :-
   move_set(Move_set),
   assert(cache(Move_set,Score)).
 
-score_world(Score, Player) :-
+/*score_world(Score, Player) :-
   move_set(Move_set),
-  findall(C,cache(Move_set,C),Cs),
-  length(Cs,N),
+  findall(Cached_score,cache(Move_set,Cached_score),Cached_scores),
+  list_to_set(Cached_scores,Cache_set),
+  length(Cache_set,N),
   N>0,
-  [Z|T]=Cs,
-  Score=Z.
+  [Cache_hit]=Cache_set,
+  Score=Cache_hit.*/
 
 score_world(Score, Player) :-
   findall(W,ai_winner(W),Winners),
-  score_from_current_winner(Naive_score,Winners),
+  list_to_set(Winners,Winner),
+  score_from_current_winner(Naive_score,Winner),
   stop_searching(Naive_score),
   Score=Naive_score,
   cache_world(Score).
 
 score_world(Score,Player) :-
+  findall(W,ai_winner(W),Winners),
+  Winners=[],
   findall(point(R,C),legal_imagined_move(R,C),Valid_input_points),
   score_future_boards(Scores, Valid_input_points, Player),
   player_score_pred(Player, Pred),
@@ -72,7 +77,8 @@ score_future_boards(Scores, [H|T], Player) :-
   assert(imagined_move(H, Player)),
   other_player(Player,Other),
   findall(S,score_world(S, Other),C),
-  [Score|_]=C,
+  /*listing,*/
+  list_to_set(C,[Score]),
   retract(imagined_move(H, Player)),
 /*  findall(Scores,recur_or_prune(Score,Scores,T,Player),Scores_coll),
   [Scores|_]=Scores_coll.
