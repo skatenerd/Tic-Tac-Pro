@@ -4,7 +4,7 @@ game_over(Move_predicate) :-
   board_full(Move_predicate).
 
 game_over(Move_predicate) :-
-  findall(W,winner(Move_predicate, W),Winners),
+  findall(Winner,winner(Move_predicate, Winner),Winners),
   \+Winners=[].
 
 winner(Move_predicate,P) :-

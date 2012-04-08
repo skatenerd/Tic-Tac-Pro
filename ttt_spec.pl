@@ -27,13 +27,4 @@ test(valid_input) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
-test(number_of_unique) :-
-  num_unique([1,1,2,3,3,4,5],N),
-  N=5.
-
-test(any) :-
-  any(check_length(3),[[1],[1],[1,2,3]]),
-  \+any(check_length(9),[[1]]).
-
-
 :-end_tests(ttt).
