@@ -88,10 +88,16 @@ test(inevitable_tie,
   assertion(score_world(0,o)),
   assertion(\+score_world(1,o)).
 
-  test(nearly_empty,
+test(nearly_empty,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   assertion(score_world(0,o)).
+
+test(nearly_empty,
+     [cleanup(cleanup)]) :-
+  ttt:assert(move(point(0,0),x)),
+  ttt:assert(move(point(1,1),o)),
+  assertion(score_world(0,x)).
 
 test(imminent_o_victory,
      [cleanup(cleanup)]) :-

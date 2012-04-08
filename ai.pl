@@ -67,6 +67,15 @@ score_world(Score, Player) :-
   get_assoc(Move_set,C,Score),
   write('hit').*/
 
+ai_winner(W) :-
+  winner(ai:real_or_imagined_move,W).
+
+score_world(Score,Player) :-
+  move_set(Move_set),
+  length(Move_set, N),
+  N<2,
+  Score=0.
+
 score_world(Score, Player) :-
   findall(W,ai_winner(W),Winners),
   list_to_set(Winners,Winner),
@@ -91,7 +100,6 @@ score_future_boards(Scores, [H|T], Player) :-
   assert(imagined_move(H, Player)),
   other_player(Player,Other),
   findall(S,score_world(S, Other),C),
-  /*listing,*/
   list_to_set(C,[Score]),
   retract(imagined_move(H, Player)),
   findall(Scores,recur_or_prune(Score,Scores,T,Player),Scores_coll),

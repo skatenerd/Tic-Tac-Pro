@@ -8,7 +8,7 @@ test(diagonal_detection) :-
   ttt_spec:assert_diagonal(x),
   ttt:assert(move(point(0,0),o)),
   ttt:assert(move(point(0,1),o)),
-  findall(W,winner(W),Winners),
+  findall(W,winner(ttt:move,W),Winners),
   member(x,Winners),
   ttt_spec:clear_moves.
 
@@ -26,19 +26,23 @@ test(board_full) :-
   ai:assert(imagined_move(point(0,2),o)),
   ttt:assert(move(point(1,0),x)),
   ttt:assert(move(point(2,0),x)),
-  findall(W,ai_winner(W),Winners),
+  findall(W,winner(ai:real_or_imagined_move,W),Winners),
   member(o,Winners),
   ttt_spec:clear_moves,
   ai:retractall(imagined_move(_,_)).
 
 test(row_detection) :-
   ttt_spec:assert_row(2,x),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),o)),
   findall(W,winner(ttt:move,W),Winners),
   member(x,Winners),
   ttt_spec:clear_moves.
 
 test(col_detection) :-
-  ttt_spec:assert_col(0),
+  ttt_spec:assert_col(0,x),
+  ttt:assert(move(point(1,0),o)),
+  ttt:assert(move(point(1,1),o)),
   findall(W,winner(ttt:move,W),Winners),
   member(x,Winners),
   ttt_spec:clear_moves.
@@ -48,9 +52,9 @@ test(all_winners) :-
   ttt_spec:assert_row(0,o),
   ttt:assert(move(point(1,1),x)),
   ttt:assert(move(point(2,2),x)),
-  findall(W,winner(W),Winners),
+  findall(W,winner(ttt:move,W),Winners),
   assertion(Winners=[o]),
-  findall(S,winner(S),Other_winners),
+  findall(S,winner(ttt:move,S),Other_winners),
   assertion(\+Other_winners=[x]),
   ttt_spec:clear_moves.
 
