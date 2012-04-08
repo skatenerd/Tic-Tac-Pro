@@ -74,7 +74,9 @@ score_future_boards(Scores, [H|T], Player) :-
   findall(S,score_world(S, Other),C),
   [Score|_]=C,
   retract(imagined_move(H, Player)),
-  recur_or_prune(Score, Scores, T, Player).
+/*  findall(Scores,recur_or_prune(Score,Scores,T,Player),Scores_coll),
+  [Scores|_]=Scores_coll.
+  
 
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
   prune(Cur_score,Player),  
@@ -82,7 +84,9 @@ recur_or_prune(Cur_score, Scores, Moves, Player) :-
 
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
   score_future_boards(Rest_scores, Moves, Player),
-  Scores=[Cur_score|Rest_scores].
+  Scores=[Cur_score|Rest_scores].*/
+  score_future_boards(Rest_scores, T, Player),
+  Scores=[Score|Rest_scores].
   
 real_or_imagined_move(move(Point,Player)) :-
   real_or_imagined_move(Point,Player).

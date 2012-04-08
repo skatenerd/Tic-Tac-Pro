@@ -10,7 +10,7 @@ cleanup :-
 
 :- begin_tests(ai).
 
-test(smart_cpu,
+/*test(smart_cpu,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(0,1),x)),
@@ -26,7 +26,7 @@ test(smart_cpu,
   ttt:assert(move(point(1,0),o)),
   smart_cpu_move(x,move(Point,Player)),
   write(Point),
-  assertion(Point=point(0,_)).
+  assertion(Point=point(0,_)).*/
 
 test(dumb_cpu) :-
   dumb_cpu_move(o,move(Point,Player)),
