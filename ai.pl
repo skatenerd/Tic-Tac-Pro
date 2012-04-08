@@ -1,4 +1,4 @@
-:-  module(ai,[smart_cpu_move/2,cache_world/1,cache/2,legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
+:-  module(ai,[other_player/2, smart_cpu_move/2,cache_world/1,cache/2,legal_imagined_move/2, score_world/2,dumb_cpu_move/2]).
 :- use_module(board_utils).
 :- use_module(library(lists)).
 :- dynamic imagined_move/2.
@@ -80,7 +80,7 @@ score_future_boards(Scores, [H|T], Player) :-
   /*listing,*/
   list_to_set(C,[Score]),
   retract(imagined_move(H, Player)),
-/*  findall(Scores,recur_or_prune(Score,Scores,T,Player),Scores_coll),
+  findall(Scores,recur_or_prune(Score,Scores,T,Player),Scores_coll),
   [Scores|_]=Scores_coll.
   
 
@@ -90,9 +90,9 @@ recur_or_prune(Cur_score, Scores, Moves, Player) :-
 
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
   score_future_boards(Rest_scores, Moves, Player),
-  Scores=[Cur_score|Rest_scores].*/
-  score_future_boards(Rest_scores, T, Player),
-  Scores=[Score|Rest_scores].
+  Scores=[Cur_score|Rest_scores].
+/*  score_future_boards(Rest_scores, T, Player),
+  Scores=[Score|Rest_scores].*/
   
 real_or_imagined_move(move(Point,Player)) :-
   real_or_imagined_move(Point,Player).
