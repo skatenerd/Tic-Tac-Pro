@@ -31,15 +31,11 @@ moves_constitute_win(Move_predicate, P) :-
 
 
 col_winner(Move_predicate, P) :-
-  /*findall(M,bagof(R,move(point(R,_),P),M),Z),
-  any(check_length(3),Z).*/
   call(Move_predicate,point(0,C),P),
   call(Move_predicate,point(1,C),P),
   call(Move_predicate,point(2,C),P).
   
 row_winner(Move_predicate, P) :-
-  /*findall(M,bagof(C,move(point(_,C),P),M),Z),
-  any(check_length(3),Z).*/
   call(Move_predicate,point(R,0),P),
   call(Move_predicate,point(R,1),P),
   call(Move_predicate,point(R,2),P).

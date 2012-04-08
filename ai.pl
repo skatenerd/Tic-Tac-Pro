@@ -35,7 +35,6 @@ stop_searching(_) :-
   board_full(ai:real_or_imagined_move).
 
 stop_searching(Naive_score) :-
-  /*\+Naive_score=0.*/
   Naive_score\=0.
 
 move_set(Move_set) :-
@@ -106,8 +105,6 @@ recur_or_prune(Cur_score, Scores, Moves, Player) :-
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
   score_future_boards(Rest_scores, Moves, Player),
   Scores=[Cur_score|Rest_scores].
-/*  score_future_boards(Rest_scores, T, Player),
-  Scores=[Score|Rest_scores].*/
   
 real_or_imagined_move(move(Point,Player)) :-
   real_or_imagined_move(Point,Player).
