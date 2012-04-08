@@ -29,7 +29,6 @@ game_over :-
 
 game_over :-
   findall(W,winner(W),Winners),
-  write(Winners),
   \+Winners=[].
   
 
@@ -52,7 +51,6 @@ turn(human) :-
   nl,
   print_board, 
   io:get_input([Row,Col]),
-  write('got it'),
   nl,
   assert(move(point(Row,Col),x)).
 
