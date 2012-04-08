@@ -1,4 +1,4 @@
-:-  module(ttt,[initialize_game/0,valid_input/1,move/2,any/2,check_length/2]).
+:-  module(ttt,[initialize_game/0,valid_input/1,move/2,check_length/2]).
 :- use_module(library(lists)).
 :- use_module(board_utils).
 :- use_module(io).
@@ -34,4 +34,3 @@ game_loop(Player) :-
   move_source(Player,Source),
   turn(Source),
   game_loop(Other).
-

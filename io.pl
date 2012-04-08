@@ -19,20 +19,17 @@ write_square([Occupant]) :-
   write(Occupant).
 
 print_row(R) :-
-  findall(P,move(point(R,0),P),Occupants0),
-  write_square(Occupants0),
+  findall(P,move(point(R,0),P),Square_occupant_0),
+  write_square(Square_occupant_0),
   write('|'),
-  findall(P,move(point(R,1),P),Occupants1),
-  write_square(Occupants1),
+  findall(P,move(point(R,1),P),Square_occupant_1),
+  write_square(Square_occupant_1),
   write('|'),
-  findall(P,move(point(R,2),P),Occupants3),
-  write_square(Occupants3),
+  findall(P,move(point(R,2),P),Square_occupant_2),
+  write_square(Square_occupant_2),
   nl.
-
-
 
 print_board :-
   print_row(0),
   print_row(1),
   print_row(2).
-
