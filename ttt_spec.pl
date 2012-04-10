@@ -17,11 +17,9 @@ assert_diagonal(P) :-
 
 clear_moves :-
   ttt:retractall(move(_,_)).
-:- begin_tests(ttt).
 
+:- begin_tests(ttt).
 :- load_files('ttt.pl',[redefine_module(true)]).
-/*:- load_files('mocks/board_utils.pl',[redefine_module(true)]).
-:- load_files('mocks/players.pl',[redefine_module(true)]).*/
 
 test(valid_input) :-
   valid_input(0),
@@ -29,13 +27,6 @@ test(valid_input) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
-/*
-test(game_loop_terminates) :-
-  ttt:game_loop(x).*/
-  
 
 :- unload_file('ttt.pl').
-/*:- unload_file('mocks/players.pl').
-:- unload_file('mocks/board_utils.pl').*/
-
 :-end_tests(ttt).

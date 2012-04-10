@@ -59,7 +59,7 @@ score_future_boards(Scores, Valid_input_points, Player) :-
   retract(imagined_move(Point, Player)),
   recur_or_prune(Score_after_move, Scores, Remaining_points, Player).
 
-recur_or_prune(Cur_score, Scores, Moves, _) :-
+recur_or_prune(Cur_score, Scores, Moves, Player) :-
   prune(Cur_score, Player),  
   Scores = [Cur_score].
 

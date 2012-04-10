@@ -4,6 +4,7 @@
 :- use_module(board_utils).
 :- use_module(players).
 :- use_module(game_configuration).
+:- use_module(io).
 :- dynamic move/2.
 
 valid_input(Input) :-
@@ -12,11 +13,17 @@ valid_input(Input) :-
   board_utils:legal(ttt:move, [Row, Col]).
 
 initialize_game :-
-  see(user_input),
-  write('welcome'),
-  game_configuration:assert(move_source(x, human)),
-  game_configuration:assert(move_source(o, cpu)),
+  io:human_first(Human_first),
+  configure(Human_first),
   game_loop(x).
+
+configure(true) :-
+  game_configuration:assert(move_source(x, human)),
+  game_configuration:assert(move_source(o, cpu)).
+
+configure(false) :-
+  game_configuration:assert(move_source(x, cpu)),
+  game_configuration:assert(move_source(o, human)).
 
 game_loop(_) :-
   game_over(ttt:move),
@@ -29,5 +36,5 @@ game_loop(_) :-
 game_loop(Player) :-
   other_player(Player, Other),
   game_configuration:move_source(Player, Source),
-  turn(Source),
+  players:turn(Source, Player),
   game_loop(Other).

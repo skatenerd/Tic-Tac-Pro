@@ -1,9 +1,7 @@
 :- module(io_spec,[]).
-
 :- begin_tests(io).
+:- use_module(ttt_spec).
 :- load_files('io.pl',[redefine_module(true)]).
-:- load_files('ttt.pl',[redefine_module(true)]).
-:- load_files('ttt_spec.pl',[redefine_module(true)]).
 
 /*test(get_input) :-
   see('input.txt'),
@@ -18,8 +16,6 @@ test(printing) :-
   assertion(Output="x|x|x\n_|_|_\n_|_|_\n"),
   ttt_spec:clear_moves.
 
-:- unload_file('io.pl').
-:- unload_file('ttt.pl').
-:- unload_file('ttt_spec.pl').
 
+:- unload_file('io.pl').
 :- end_tests(io).
