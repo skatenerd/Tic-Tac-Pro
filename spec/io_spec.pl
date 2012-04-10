@@ -1,6 +1,6 @@
 :- module(io_spec,[]).
 :- use_module(ttt_spec).
-:- use_module(io).
+:- use_module(src/io).
 :- begin_tests(io).
 
 test(input_to_row_col) :-

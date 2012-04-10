@@ -19,7 +19,7 @@ clear_moves :-
   ttt:retractall(move(_,_)).
 
 :- begin_tests(ttt).
-:- load_files('ttt.pl',[redefine_module(true)]).
+:- use_module(src/ttt).
 
 test(input_validation) :-
   valid_input(0),
@@ -42,10 +42,9 @@ test(configuration,
   game_configuration:move_source(x,cpu),
   game_configuration:retractall(move_source(_,_)).
 
-test(full_game_does_not_crash,
+/*test(full_game_does_not_crash,
      [cleanup(see(user_input))]) :-
-  see('full_game_input.txt'),
-  with_output_to(codes(_), initialize_game).
+  see('spec/full_game_input.txt'),
+  with_output_to(codes(_), initialize_game).*/
 
-:- unload_file('ttt.pl').
 :-end_tests(ttt).

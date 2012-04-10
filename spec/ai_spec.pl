@@ -1,7 +1,7 @@
 :- module(ai_spec,[]).
 :- use_module(ttt_spec).
-:- use_module(ttt).
-:- use_module(ai).
+:- use_module(src/ttt).
+:- use_module(src/ai).
 :- use_module(library(lists)).
 
 cleanup :-
@@ -24,7 +24,6 @@ test(smart_cpu,
   ttt:assert(move(point(0, 0), x)),
   ttt:assert(move(point(1, 0), o)),
   smart_cpu_move(x,move(Point,_)),
-  write(Point),
   assertion(Point=point(0,_)).
 
 test(dumb_cpu) :-

@@ -1,6 +1,6 @@
 :- module(board_utils_spec, []).
-:- use_module(ttt).
-:- use_module(board_utils).
+:- use_module(src/ttt).
+:- use_module(src/board_utils).
 :- use_module(ttt_spec).
 
 :- begin_tests(utils).

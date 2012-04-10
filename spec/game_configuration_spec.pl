@@ -1,5 +1,5 @@
 :- module(game_configuration_spec, []).
-:- use_module(game_configuration).
+:- use_module(src/game_configuration).
 :- begin_tests(configuration).
 
 test(other_player) :-

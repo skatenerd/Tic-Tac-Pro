@@ -1,9 +1,9 @@
 :- module(players_spec, []).
-:- use_module(players).
 :- begin_tests(players).
-:- load_files('mocks/ai.pl',[redefine_module(true)]).
-:- load_files('mocks/io.pl',[redefine_module(true)]).
-:- load_files('mocks/ttt.pl',[redefine_module(true)]).
+:- use_module(src/players).
+:- load_files('spec/mocks/ai.pl',[redefine_module(true)]).
+:- load_files('spec/mocks/io.pl',[redefine_module(true)]).
+:- load_files('spec/mocks/ttt.pl',[redefine_module(true)]).
 
 test(human_turn,
      [cleanup(ttt:retractall(move(_,_)))]) :-
@@ -16,9 +16,8 @@ test(cpu_turn,
   turn(cpu, o),
   ai:calls(smart_cpu_move,o),
   ttt:move(_,_).
-  /*ttt:retractall(move(_,_)).*/
 
-:- unload_file('/mocks/io.pl').
-:- unload_file('mocks/ttt.pl').
-:- unload_file('mocks/ai.pl').
+:- unload_file('spec/mocks/io.pl').
+:- unload_file('spec/mocks/ttt.pl').
+:- unload_file('spec/mocks/ai.pl').
 :- end_tests(players).
