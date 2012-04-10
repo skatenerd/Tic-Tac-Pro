@@ -16,7 +16,7 @@ get_input(Input) :-
 write_square([]) :-
   write('_').
 
-write_square([Occupant]) :-
+write_square([Occupant|_]) :-
   write(Occupant).
 
 print_row(R) :-

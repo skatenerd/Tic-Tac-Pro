@@ -2,7 +2,6 @@
 
 :- load_files('ttt.pl',[redefine_module(true)]).
 :- load_files('ai.pl',[redefine_module(true)]).
-
 :- use_module(ttt_spec).
 :- use_module(library(lists)).
 

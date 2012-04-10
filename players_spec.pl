@@ -11,13 +11,15 @@ test(human_turn) :-
   turn(human),
   io:calls(print_board,[]),
   io:get_input([Row,Col]),
-  ttt:move(point(Row,Col),_).
+  ttt:move(point(Row,Col),_),
+  ttt:retractall(move(_,_)).
 
 test(cpu_turn) :-
   turn(cpu),
   ai:calls(smart_cpu_move,_),
   ai:smart_cpu_move(_,move(point(Row,Col),_)),
-  ttt:move(point(Row,Col),_).
+  ttt:move(point(Row,Col),_),
+  ttt:retractall(move(_,_)).
 
 :- unload_file('/mocks/io.pl').
 :- unload_file('mocks/ttt.pl').
