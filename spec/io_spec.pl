@@ -1,5 +1,5 @@
 :- module(io_spec,[]).
-:- use_module(ttt_spec).
+:- use_module(assertions).
 :- use_module(src/io).
 :- begin_tests(io).
 
@@ -26,10 +26,10 @@ test(prompt_if_human_first,
   Human_first.*/
 
 test(printing) :-
-  ttt_spec:assert_row(0,x),
+  assertions:assert_row(0,x),
   with_output_to(codes(Output),io:print_board),
   format("~s",[Output]),
   assertion(Output="x|x|x\n_|_|_\n_|_|_\n"),
-  ttt_spec:clear_moves.
+  assertions:clear_moves.
 
 :- end_tests(io).
