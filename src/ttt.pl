@@ -30,6 +30,7 @@ game_loop(_) :-
   write('Game over, final board was'),
   nl,
   print_board,
+  game_configuration:cleanup,
   ai:retractall(imagined_move(_, _)),
   ttt:retractall(move(_, _)).
 
