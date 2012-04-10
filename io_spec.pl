@@ -1,7 +1,7 @@
 :- module(io_spec,[]).
-:- begin_tests(io).
 :- use_module(ttt_spec).
-:- load_files('io.pl',[redefine_module(true)]).
+:- use_module(io).
+:- begin_tests(io).
 
 /*test(get_input) :-
   see('input.txt'),
@@ -17,5 +17,4 @@ test(printing) :-
   ttt_spec:clear_moves.
 
 
-:- unload_file('io.pl').
 :- end_tests(io).

@@ -1,8 +1,7 @@
 :- module(ai_spec,[]).
-
-:- load_files('ttt.pl',[redefine_module(true)]).
-:- load_files('ai.pl',[redefine_module(true)]).
 :- use_module(ttt_spec).
+:- use_module(ttt).
+:- use_module(ai).
 :- use_module(library(lists)).
 
 cleanup :-
