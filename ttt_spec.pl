@@ -1,5 +1,7 @@
-:- module(ttt_spec,[assert_row/2,clear_moves/0]).
-:- use_module(ttt). 
+:- module(ttt_spec,[assert_row/2, assert_col/2, assert_diagonal/1, clear_moves/0]).
+:- load_files('ttt.pl',[redefine_module(true)]).
+/*:- load_files('mocks/board_utils.pl',[redefine_module(true)]).
+:- load_files('mocks/players.pl',[redefine_module(true)]).*/
 
 assert_row(R,P) :-
   ttt:assert(move(point(R,0),P)),
@@ -18,7 +20,6 @@ assert_diagonal(P) :-
 
 clear_moves :-
   ttt:retractall(move(_,_)).
-
 :- begin_tests(ttt).
 
 test(valid_input) :-
@@ -27,4 +28,13 @@ test(valid_input) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
+/*
+test(game_loop_terminates) :-
+  ttt:game_loop(x).*/
+  
+  
+
 :-end_tests(ttt).
+:- unload_file('ttt.pl').
+/*:- unload_file('mocks/players.pl').
+:- unload_file('mocks/board_utils.pl').*/

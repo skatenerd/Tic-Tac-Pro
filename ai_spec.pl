@@ -1,14 +1,14 @@
 :- module(ai_spec,[]).
-:- use_module(ai).
-:- use_module(ttt).
+
+:- load_files('ttt.pl',[redefine_module(true)]).
+:- load_files('ai.pl',[redefine_module(true)]).
+
 :- use_module(ttt_spec).
 :- use_module(library(lists)).
 
 cleanup :-
   ai:retractall(imagined_move(_,_)),
-  ttt_spec:clear_moves,
-  ai:retractall(cache(_)),
-  ai:assert(cache(empty)).
+  ttt_spec:clear_moves.
 
 :- begin_tests(ai).
 
@@ -18,7 +18,7 @@ test(smart_cpu,
   ttt:assert(move(point(0,1),x)),
   ttt:assert(move(point(1,0),o)),
   ttt:assert(move(point(1,1),o)),
-  smart_cpu_move(x,move(Point,Player)),
+  smart_cpu_move(x,move(Point,_)),
   write(Point),
   Point=point(0,2).
 
@@ -26,21 +26,14 @@ test(smart_cpu,
      [cleanup(cleanup)]) :-
   ttt:assert(move(point(0,0),x)),
   ttt:assert(move(point(1,0),o)),
-  smart_cpu_move(x,move(Point,Player)),
+  smart_cpu_move(x,move(Point,_)),
   write(Point),
   assertion(Point=point(0,_)).
 
 test(dumb_cpu) :-
-  dumb_cpu_move(o,move(Point,Player)),
+  dumb_cpu_move(o,move(Point,_)),
   point(Row,Col)=Point,
   board_utils:in_valid_range(Row,Col).
-/*
-test(add_to_cache,
-     [cleanup(cleanup)]) :-
-  ttt:assert(move(point(0,0),x)),
-  cache_world(0),
-  ai:cache(C),
-  get_assoc([move(point(0,0),x)],C,0).*/
 
 test(dumb_cpu,
      [cleanup(cleanup)]) :-
@@ -58,7 +51,7 @@ test(legal_imagined_moves,
   legal_imagined_move(2,0),
   \+legal_imagined_move(0,0),
   \+legal_imagined_move(2,2),
-  findall(point(R,C),legal_imagined_move(R,C),[H|T]),
+  findall(point(R,C),legal_imagined_move(R,C),[H|_]),
   H=point(1,0).
 
 test(x_already_won,
