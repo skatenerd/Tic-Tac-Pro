@@ -8,18 +8,12 @@ game_over(Move_predicate) :-
   \+Winners = [].
 
 winner(Move_predicate, Winner) :-
-  findall(_, call(Move_predicate, _, _), Moves),
-  length(Moves, N),
-  N > 4,
-  moves_constitute_win(Move_predicate, Winner).
-
-moves_constitute_win(Move_predicate, Winner) :-
   col_winner(Move_predicate, Winner).
 
-moves_constitute_win(Move_predicate, Winner) :-
+winner(Move_predicate, Winner) :-
   row_winner(Move_predicate, Winner).
 
-moves_constitute_win(Move_predicate, Winner) :-
+winner(Move_predicate, Winner) :-
   diagonal_winner(Move_predicate, Winner).
 
 board_full(Move_predicate) :-

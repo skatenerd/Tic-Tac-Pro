@@ -1,4 +1,4 @@
-:- module(io, [print_board/0, get_input/2, human_first/1]).
+:- module(io, [input_to_row_col/3, print_board/0, get_move_input/2, human_first/1]).
 :- use_module(ttt).
 
 true_or_false(y, true).
@@ -24,7 +24,7 @@ show_game_status(Alias) :-
   write('You are playing as: '),
   write(Alias),nl.
 
-get_input(Alias, Input) :-
+get_move_input(Alias, Input) :-
   show_game_status(Alias),
   prompt_move(Input).
 

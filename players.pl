@@ -4,7 +4,7 @@
 :- use_module(ttt).
 
 turn(human, Alias) :-
-  get_input(Alias,[Row,Col]),nl,
+  get_move_input(Alias,[Row,Col]),nl,
   ttt:assert(move(point(Row,Col),Alias)).
 
 turn(cpu, Alias) :-

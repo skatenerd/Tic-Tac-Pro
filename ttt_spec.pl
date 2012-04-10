@@ -21,12 +21,31 @@ clear_moves :-
 :- begin_tests(ttt).
 :- load_files('ttt.pl',[redefine_module(true)]).
 
-test(valid_input) :-
+test(input_validation) :-
   valid_input(0),
   valid_input(8),
+  ttt:assert(move(point(0,2),x)),
+  \+valid_input(2),
   \+valid_input("hello"),
   \+valid_input(33).
 
+test(configuration,
+     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
+  configure(true),
+  game_configuration:move_source(x,human),
+  game_configuration:move_source(o,cpu).
+
+test(configuration,
+     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
+  configure(false),
+  game_configuration:move_source(o,human),
+  game_configuration:move_source(x,cpu),
+  game_configuration:retractall(move_source(_,_)).
+
+test(full_game_does_not_crash,
+     [cleanup(see(user_input))]) :-
+  see('full_game_input.txt'),
+  with_output_to(codes(_), initialize_game).
 
 :- unload_file('ttt.pl').
 :-end_tests(ttt).

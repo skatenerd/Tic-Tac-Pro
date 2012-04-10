@@ -1,4 +1,4 @@
-:-  module(ttt, [initialize_game/0, valid_input/1, move/2]).
+:-  module(ttt, [configure/1, initialize_game/0, valid_input/1, move/2]).
 :- load_files('io.pl',[redefine_module(true)]).
 :- use_module(library(lists)).
 :- use_module(board_utils).
