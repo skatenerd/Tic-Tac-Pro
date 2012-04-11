@@ -43,6 +43,9 @@ test(game_loop,
   with_output_to(codes(_), ttt:game_loop(x)),
 
   assertion(\+players:calls(turn,[human,x])),
+  assertion(\+board:move(_,_)),
+  assertion(\+ai:imagined_move(_,_)),
+  assertion(\+game_configuration:move_source(_,_)), 
   assertion(io:calls(farewell,_)).
 
 test(initialization,
@@ -56,5 +59,15 @@ test(unload_mocks) :-
   load_files('src/io.pl',[redefine_module(true)]),
   load_files('src/board_utils.pl',[redefine_module(true)]),
   load_files('src/players.pl',[redefine_module(true)]).
+
+/*
+I have commented this test out because it exhausts the filestream, and you cannot run it multiple times.
+Uncomment freely
+
+test(integration
+     [cleanup(see(user_input))]) :-
+  see('spec/full_game_input.txt'),
+  with_output_to(codes(_), initialize_game),
+  \+game_configuration:move_source(_,_). */
 
 :-end_tests(ttt).
