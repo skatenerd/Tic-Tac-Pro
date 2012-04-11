@@ -52,10 +52,9 @@ test(all_winners) :-
   assertions:assert_row(0, o),
   ttt:assert(move(point(1, 1), x)),
   ttt:assert(move(point(2, 2), x)),
-  findall(W, winner(ttt:move, W), Winners),
+  findall(Winner, winner(ttt:move, Winner), Winners),
   assertion(Winners = [o]),
-  findall(S, winner(ttt:move, S), Other_winners),
-  assertion(\+Other_winners = [x]),
+  assertion(\+Winners = [x]),
   assertions:clear_moves.
 
 test(move_legality) :-

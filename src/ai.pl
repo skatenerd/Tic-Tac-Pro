@@ -19,15 +19,12 @@ real_or_imagined_move(Point, Player) :-
 move_set(Moves) :-
   findall(Move, ai:real_or_imagined_move(Move), Moves).
 
-ai_winner(W) :-
-  board_utils:winner(ai:real_or_imagined_move, W).
+imagined_winner(Winner) :-
+  board_utils:winner(ai:real_or_imagined_move, Winner).
 
 score_from_current_winner(1, [x]).
 score_from_current_winner(-1, [o]).
 score_from_current_winner(0, []).
-
-prune(Score, player) :-
-  score_from_current_winner(Score, [player]).
 
 player_score_pred(o, Pred) :-
   Pred = min_member.
@@ -43,13 +40,13 @@ score_world(Score, _) :-
 
 score_world(Score, _) :-
   stop_searching,
-  findall(Winner, ai_winner(Winner), Winners),
+  findall(Winner, imagined_winner(Winner), Winners),
   list_to_set(Winners, Winner_list),
   score_from_current_winner(Naive_score, Winner_list),
   Score = Naive_score.
 
 score_world(Score, Player) :-
-  findall(Winner, ai_winner(Winner), Winners),
+  findall(Winner, imagined_winner(Winner), Winners),
   Winners = [],
   findall(point(Row, Col), legal_imagined_move(Row, Col), Valid_input_points),
   score_future_boards(Scores, Valid_input_points, Player),
@@ -75,6 +72,9 @@ recur_or_prune(Cur_score, Scores, _, Player) :-
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
   score_future_boards(Rest_scores, Moves, Player),
   Scores = [Cur_score|Rest_scores].
+
+prune(Score, player) :-
+  score_from_current_winner(Score, [player]).
 
 stop_searching :-
   board_utils:game_over(ai:real_or_imagined_move).

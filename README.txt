@@ -45,7 +45,7 @@ Running the tests:
 
 Running the game:
   CD to project root.
-  Enter/restart repl ("/opt/local/bin/swipl")
+  Enter repl ("/opt/local/bin/swipl")
   Type:
     consult('src/ttt').
     ttt:initialize_game.
