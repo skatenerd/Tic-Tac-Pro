@@ -4,8 +4,7 @@
 
 test(setup) :-
   load_files('spec/mocks/ai.pl',[redefine_module(true)]),
-  load_files('spec/mocks/io.pl',[redefine_module(true)]),
-  load_files('spec/mocks/ttt.pl',[redefine_module(true)]).
+  load_files('spec/mocks/io.pl',[redefine_module(true)]).
 
 test(human_turn,
      [cleanup(ttt:retractall(move(_,_)))]) :-
@@ -20,7 +19,6 @@ test(cpu_turn,
   ttt:move(_,_).
 
 test(cleanup) :-
-  load_files('src/ttt.pl',[redefine_module(true)]),
   load_files('src/io.pl',[redefine_module(true)]),
   load_files('src/ai.pl',[redefine_module(true)]).
 
