@@ -15,6 +15,7 @@ valid_input(Input) :-
 initialize_game :-
   io:human_first(Human_first),
   configure(Human_first),
+  /*game_configuration:configure(Human_first),*/
   game_loop(x).
 
 configure(true) :-

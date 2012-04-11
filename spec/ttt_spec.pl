@@ -25,12 +25,15 @@ test(configuration,
   game_configuration:move_source(x,cpu),
   game_configuration:retractall(move_source(_,_)).
 
+/*This test will randomly fail one in a hundred runs.
+Not sure if the tradeoff of a more complicated test is worth it*/
+
 test(game_loop,
      [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
   load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
   load_files('spec/mocks/players.pl',[redefine_module(true)]),
   configure(true),
-  board_utils:assert(game_over_probability(0.5)),
+  board_utils:assert(game_over_probability(0.01)),
 
   with_output_to(codes(_), ttt:game_loop(x)),
 
