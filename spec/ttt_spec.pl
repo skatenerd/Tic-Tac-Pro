@@ -25,9 +25,19 @@ test(configuration,
   game_configuration:move_source(x,cpu),
   game_configuration:retractall(move_source(_,_)).
 
-/*test(game_loop,
-    [cleanup(ttt:retractall(move(_,_)))]) :-
-  game_loop*/
+test(game_loop,
+     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
+  load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
+  load_files('spec/mocks/players.pl',[redefine_module(true)]),
+  configure(true),
+  board_utils:assert(game_over_probability(0.5)),
+
+  with_output_to(codes(_), ttt:game_loop(x)),
+
+  assertion(board_utils:calls(game_over,ttt:move)),
+  assertion(players:calls(turn,[human,x])),
+  load_files('src/board_utils.pl',[redefine_module(true)]),
+  load_files('src/players.pl',[redefine_module(true)]).
 
 /*
 I have commented this test out because it exhausts the filestream, and you cannot run it multiple times.
