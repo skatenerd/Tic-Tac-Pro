@@ -15,14 +15,14 @@ Uncommenting these tests means you have to restart the environment every time.
 
 test(get_input,
      [cleanup(see(user_input))]) :-
-  see('move_input.txt'),
+  see('spec/move_input.txt'),
   with_output_to(codes(_), get_move_input(x,Input)),
   Input=[1,0].
 
 test(prompt_if_human_first,
      [cleanup(see(user_input))]) :-
-  see('move_first_input.txt'),
-  with_output_to(codes(_), human_first(Human_first)),
+  see('spec/move_first_input.txt'),
+  with_output_to(codes(_), prompt_if_human_first(Human_first)),
   Human_first.*/
 
 test(printing) :-

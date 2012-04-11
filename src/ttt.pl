@@ -13,16 +13,13 @@ valid_input(Input) :-
   board_utils:legal(ttt:move, [Row, Col]).
 
 initialize_game :-
-  io:human_first(Human_first),
-  configure(Human_first),
-  /*game_configuration:configure(Human_first),*/
+  io:prompt_if_human_first(Human_first),
+  game_configuration:configure(Human_first),
   game_loop(x).
 
 game_loop(_) :-
   game_over(ttt:move),
-  write('Game over, final board was'),
-  nl,
-  print_board,
+  io:farewell,
   ttt_cleanup.
 
 game_loop(Player_alias) :-

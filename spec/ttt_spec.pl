@@ -1,5 +1,4 @@
 :- module(ttt_spec,[]).
-
 :- begin_tests(ttt).
 :- use_module(src/ttt).
 :- use_module(spec/assertions).
@@ -12,20 +11,38 @@ test(input_validation) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
-/*This test will randomly fail one in a hundred runs.
+/*This test will randomly fail one in a thousand runs.
 Not sure if the tradeoff of a more complicated test is worth it*/
-
 test(game_loop,
      [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
   load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
   load_files('spec/mocks/players.pl',[redefine_module(true)]),
   configure(true),
-  board_utils:assert(game_over_probability(0.01)),
+  board_utils:assert(game_over_probability(0.001)),
 
   with_output_to(codes(_), ttt:game_loop(x)),
-
   assertion(board_utils:calls(game_over,ttt:move)),
   assertion(players:calls(turn,[human,x])),
+
+  retractall(board_utils:calls(_,_)),
+  retractall(players:calls(_,_)),
+  load_files('src/board_utils.pl',[redefine_module(true)]),
+  load_files('src/players.pl',[redefine_module(true)]).
+
+test(game_loop,
+     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
+  /*load_files('spec/mocks/io.pl',[redefine_module(true)]),*/
+  load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
+  load_files('spec/mocks/players.pl',[redefine_module(true)]),
+  configure(true),
+  board_utils:assert(game_over_probability(1)),
+
+  with_output_to(codes(_), ttt:game_loop(x)),
+  assertion(\+players:calls(turn,[human,x])),
+
+  retractall(board_utils:calls(_,_)),
+  retractall(players:calls(_,_)),
+  /*load_files('src/io.pl',[redefine_module(true)]),*/
   load_files('src/board_utils.pl',[redefine_module(true)]),
   load_files('src/players.pl',[redefine_module(true)]).
 

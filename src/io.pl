@@ -1,4 +1,4 @@
-:- module(io, [input_to_row_col/3, print_board/0, get_move_input/2, human_first/1]).
+:- module(io, [input_to_row_col/3, print_board/0, get_move_input/2, prompt_if_human_first/1, farewell/0]).
 :- use_module(ttt).
 
 true_or_false(y, true).
@@ -6,7 +6,7 @@ true_or_false(yes, true).
 true_or_false(n, false).
 true_or_false(no, false).
 
-human_first(Human_first) :-
+prompt_if_human_first(Human_first) :-
   repeat,
   write('Would you like to go first? (yes or no)  '),nl,
   read(Input),
@@ -57,3 +57,8 @@ print_board :-
   print_row(0),
   print_row(1),
   print_row(2).
+
+farewell :-
+  write('Game over, final board was'),
+  nl,
+  print_board.
