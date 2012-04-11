@@ -11,6 +11,10 @@ test(get_move_input) :-
 
   io:retractall(calls(_,_)).
 
+test(prompt_if_human_first) :-
+  prompt_if_human_first(_),
+  io:calls(prompt_if_human_first,_).
+
 test(cleanup) :-
   load_files('src/io.pl',[redefine_module(true)]).
 

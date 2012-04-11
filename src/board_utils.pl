@@ -30,7 +30,6 @@ row_winner(Move_predicate, Winner) :-
   call(Move_predicate, point(R, 0), Winner),
   call(Move_predicate, point(R, 1), Winner),
   call(Move_predicate, point(R, 2), Winner).
-  
 
 diagonal_winner(Move_predicate, Winner) :-
   call(Move_predicate, point(0, 0), Winner),

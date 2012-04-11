@@ -1,4 +1,4 @@
-:- module(game_configuration, [other_player/2, cleanup/0, move_source/2, configure/1]).
+:- module(game_configuration, [other_player/2, move_source/2, configure/1]).
 :- dynamic move_source/2.
 
 cleanup :-

@@ -13,7 +13,7 @@ These are commented out becauase they permanently mutate the state of the file i
 I have no idea how to fix that!
 Uncommenting these tests means you have to restart the environment every time.
 
-test(get_input,
+test(get_move_input,
      [cleanup(see(user_input))]) :-
   see('spec/move_input.txt'),
   with_output_to(codes(_), get_move_input(x,Input)),

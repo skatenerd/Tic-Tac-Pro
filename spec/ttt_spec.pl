@@ -11,12 +11,15 @@ test(input_validation) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
+test(load_mocks) :-
+  load_files('spec/mocks/io.pl',[redefine_module(true)]),
+  load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
+  load_files('spec/mocks/players.pl',[redefine_module(true)]).
+
 /*This test will randomly fail one in a thousand runs.
 Not sure if the tradeoff of a more complicated test is worth it*/
 test(game_loop,
      [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
-  load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
-  load_files('spec/mocks/players.pl',[redefine_module(true)]),
   configure(true),
   board_utils:assert(game_over_probability(0.001)),
 
@@ -25,24 +28,35 @@ test(game_loop,
   assertion(players:calls(turn,[human,x])),
 
   retractall(board_utils:calls(_,_)),
-  retractall(players:calls(_,_)),
-  load_files('src/board_utils.pl',[redefine_module(true)]),
-  load_files('src/players.pl',[redefine_module(true)]).
-
+  retractall(players:calls(_,_)).
+  
 test(game_loop,
      [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
-  /*load_files('spec/mocks/io.pl',[redefine_module(true)]),*/
-  load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
-  load_files('spec/mocks/players.pl',[redefine_module(true)]),
   configure(true),
   board_utils:assert(game_over_probability(1)),
-
   with_output_to(codes(_), ttt:game_loop(x)),
+
   assertion(\+players:calls(turn,[human,x])),
+  assertion(io:calls(farewell,_)),
 
   retractall(board_utils:calls(_,_)),
   retractall(players:calls(_,_)),
-  /*load_files('src/io.pl',[redefine_module(true)]),*/
+  retractall(io:calls(_,_)).
+
+test(initialization) :-
+  board_utils:assert(game_over_probability(1)),
+
+  initialize_game,
+  assertion(io:calls(prompt_if_human_first,_)),
+
+  retractall(board_utils:calls(_,_)),
+  retractall(board_utils(game_over_probability(_))),
+  retractall(io:calls(_,_)),
+  load_files('src/board_utils.pl',[redefine_module(true)]),
+  load_files('src/io.pl',[redefine_module(true)]).
+
+test(unload_mocks) :-
+  load_files('src/io.pl',[redefine_module(true)]),
   load_files('src/board_utils.pl',[redefine_module(true)]),
   load_files('src/players.pl',[redefine_module(true)]).
 

@@ -20,7 +20,7 @@ initialize_game :-
 game_loop(_) :-
   game_over(ttt:move),
   io:farewell,
-  ttt_cleanup.
+  cleanup.
 
 game_loop(Player_alias) :-
   other_player(Player_alias, Other),
@@ -28,7 +28,7 @@ game_loop(Player_alias) :-
   players:turn(Source, Player_alias),
   game_loop(Other).
 
-ttt_cleanup :-
+cleanup :-
   game_configuration:cleanup,
   ai:retractall(imagined_move(_, _)),
   ttt:retractall(move(_, _)).

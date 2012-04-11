@@ -85,8 +85,8 @@ unbeatable_cpu_move(Player, Move) :-
   Move = move(Point, Player). 
 
 score_after_move(Point, Player, Score) :-
-  legal_imagined_move(R, C),
-  Point = point(R, C),
+  legal_imagined_move(Row, Col),
+  Point = point(Row, Col),
   assert(imagined_move(Point, Player)),
   game_configuration:other_player(Player, Other),
   score_world(Cur_score, Other),

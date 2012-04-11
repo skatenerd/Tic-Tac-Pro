@@ -10,13 +10,17 @@ test(human_turn,
      [cleanup(ttt:retractall(move(_,_)))]) :-
   turn(human, x),
   io:calls(get_move_input,x),
-  ttt:move(_,_).
+  ttt:move(_,_),
+  
+  io:retractall(calls(_,_)).
 
 test(cpu_turn,
      [cleanup(ttt:retractall(move(_,_)))]) :-
   turn(cpu, o),
   ai:calls(unbeatable_cpu_move,o),
-  ttt:move(_,_).
+  ttt:move(_,_),
+
+  io:retractall(calls(_,_)).
 
 test(cleanup) :-
   load_files('src/io.pl',[redefine_module(true)]),
