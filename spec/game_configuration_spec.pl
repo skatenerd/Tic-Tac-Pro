@@ -11,4 +11,16 @@ test(cleanup) :-
   game_configuration:cleanup,
   \+move_source(_,_).
 
+test(configuration,
+     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
+  configure(true),
+  move_source(x,human),
+  move_source(o,cpu).
+
+test(configuration,
+     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
+  configure(false),
+  move_source(o,human),
+  move_source(x,cpu).
+
 :- end_tests(configuration).

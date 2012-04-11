@@ -1,4 +1,4 @@
-:- module(game_configuration, [other_player/2, cleanup/0, move_source/2]).
+:- module(game_configuration, [other_player/2, cleanup/0, move_source/2, configure/1]).
 :- dynamic move_source/2.
 
 cleanup :-
@@ -9,3 +9,12 @@ other_player(o,Other) :-
 
 other_player(x,Other) :-
   Other = o.
+
+configure(true) :-
+  game_configuration:assert(move_source(x, human)),
+  game_configuration:assert(move_source(o, cpu)).
+
+configure(false) :-
+  game_configuration:assert(move_source(x, cpu)),
+  game_configuration:assert(move_source(o, human)).
+

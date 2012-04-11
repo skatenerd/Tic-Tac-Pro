@@ -18,14 +18,6 @@ initialize_game :-
   /*game_configuration:configure(Human_first),*/
   game_loop(x).
 
-configure(true) :-
-  game_configuration:assert(move_source(x, human)),
-  game_configuration:assert(move_source(o, cpu)).
-
-configure(false) :-
-  game_configuration:assert(move_source(x, cpu)),
-  game_configuration:assert(move_source(o, human)).
-
 game_loop(_) :-
   game_over(ttt:move),
   write('Game over, final board was'),
