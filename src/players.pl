@@ -8,5 +8,5 @@ turn(human, Alias) :-
   ttt:assert(move(point(Row,Col),Alias)).
 
 turn(cpu, Alias) :-
-  ai:smart_cpu_move(Alias,Cpu_move),
+  ai:unbeatable_cpu_move(Alias,Cpu_move),
   ttt:assert(Cpu_move).

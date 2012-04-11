@@ -4,10 +4,10 @@
 test(setup) :-
   load_files('spec/mocks/ai.pl',[redefine_module(true)]).
 
-test(smart_cpu_move) :-
-  smart_cpu_move(x,Output),
+test(unbeatable_cpu_move) :-
+  unbeatable_cpu_move(x,Output),
   Output=move(point(1,1),x),
-  ai:calls(smart_cpu_move,x),
+  ai:calls(unbeatable_cpu_move,x),
   
   ai:retractall(calls(_,_)).
 

@@ -1,8 +1,23 @@
-:-  module(ai, [dumb_cpu_move/2, smart_cpu_move/2, legal_imagined_move/2, score_world/2]).
+:-  module(ai, [unbeatable_cpu_move/2, legal_imagined_move/2, score_world/2]).
 :- use_module(board_utils).
 :- use_module(game_configuration).
 :- use_module(library(lists)).
 :- dynamic imagined_move/2.
+
+legal_imagined_move(Row, Col) :-
+  board_utils:legal(ai:real_or_imagined_move, [Row, Col]).
+
+real_or_imagined_move(move(Point, Player)) :-
+  real_or_imagined_move(Point, Player).
+
+real_or_imagined_move(Point, Player) :-
+  ttt:move(Point, Player).
+
+real_or_imagined_move(Point, Player) :-
+  imagined_move(Point, Player).
+
+move_set(Moves) :-
+  findall(Move, ai:real_or_imagined_move(Move), Moves).
 
 ai_winner(W) :-
   board_utils:winner(ai:real_or_imagined_move, W).
@@ -19,12 +34,6 @@ player_score_pred(o, Pred) :-
 
 player_score_pred(x, Pred) :-
   Pred = max_member.
-
-stop_searching :-
-  board_utils:game_over(ai:real_or_imagined_move).
-
-move_set(Moves) :-
-  findall(Move, ai:real_or_imagined_move(Move), Moves).
 
 score_world(Score, _) :-
   move_set(Move_set),
@@ -66,27 +75,11 @@ recur_or_prune(Cur_score, Scores, _, Player) :-
 recur_or_prune(Cur_score, Scores, Moves, Player) :-
   score_future_boards(Rest_scores, Moves, Player),
   Scores = [Cur_score|Rest_scores].
+
+stop_searching :-
+  board_utils:game_over(ai:real_or_imagined_move).
   
-real_or_imagined_move(move(Point, Player)) :-
-  real_or_imagined_move(Point, Player).
-
-real_or_imagined_move(Point, Player) :-
-  ttt:move(Point, Player).
-
-real_or_imagined_move(Point, Player) :-
-  imagined_move(Point, Player).
-
-legal_imagined_move(Row, Col) :-
-  board_utils:legal(ai:real_or_imagined_move, [Row, Col]).
-
-dumb_cpu_move(Player, Move) :-
-  repeat,
-  random(0, 3, Row),
-  random(0, 3, Col),
-  board_utils:legal(ttt:move, [Row, Col]),
-  Move = move(point(Row, Col), Player).
-
-smart_cpu_move(Player, Move) :-
+unbeatable_cpu_move(Player, Move) :-
   score_world(Score, Player),
   score_after_move(Point, Player, Score),
   Move = move(Point, Player). 

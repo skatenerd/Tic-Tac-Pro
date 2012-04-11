@@ -15,7 +15,7 @@ test(human_turn,
 test(cpu_turn,
      [cleanup(ttt:retractall(move(_,_)))]) :-
   turn(cpu, o),
-  ai:calls(smart_cpu_move,o),
+  ai:calls(unbeatable_cpu_move,o),
   ttt:move(_,_).
 
 test(cleanup) :-
