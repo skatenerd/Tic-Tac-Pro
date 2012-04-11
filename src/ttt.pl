@@ -30,12 +30,17 @@ game_loop(_) :-
   write('Game over, final board was'),
   nl,
   print_board,
+  ttt_cleanup.
+
+
+ttt_cleanup :-
   game_configuration:cleanup,
   ai:retractall(imagined_move(_, _)),
   ttt:retractall(move(_, _)).
+  
 
-game_loop(Player) :-
-  other_player(Player, Other),
-  game_configuration:move_source(Player, Source),
-  players:turn(Source, Player),
+game_loop(Player_alias) :-
+  other_player(Player_alias, Other),
+  game_configuration:move_source(Player_alias, Source),
+  players:turn(Source, Player_alias),
   game_loop(Other).

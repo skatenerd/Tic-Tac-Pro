@@ -25,6 +25,10 @@ test(configuration,
   game_configuration:move_source(x,cpu),
   game_configuration:retractall(move_source(_,_)).
 
+/*test(game_loop,
+    [cleanup(ttt:retractall(move(_,_)))]) :-
+  game_loop*/
+
 /*
 I have commented this test out because it exhausts the filestream, and you cannot run it multiple times.
 Uncomment freely
@@ -34,5 +38,6 @@ test(full_game_does_not_crash,
   see('spec/full_game_input.txt'),
   with_output_to(codes(_), initialize_game),
   \+game_configuration:move_source(_,_).*/
+
 
 :-end_tests(ttt).

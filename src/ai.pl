@@ -1,11 +1,11 @@
-:-  module(ai, [smart_cpu_move/2, legal_imagined_move/2, score_world/2, dumb_cpu_move/2]).
+:-  module(ai, [dumb_cpu_move/2, smart_cpu_move/2, legal_imagined_move/2, score_world/2]).
 :- use_module(board_utils).
 :- use_module(game_configuration).
 :- use_module(library(lists)).
 :- dynamic imagined_move/2.
 
 ai_winner(W) :-
-  winner(ai:real_or_imagined_move, W).
+  board_utils:winner(ai:real_or_imagined_move, W).
 
 score_from_current_winner(1, [x]).
 score_from_current_winner(-1, [o]).
@@ -21,10 +21,10 @@ player_score_pred(x, Pred) :-
   Pred = max_member.
 
 stop_searching :-
-  game_over(ai:real_or_imagined_move).
+  board_utils:game_over(ai:real_or_imagined_move).
 
 move_set(Moves) :-
-  findall(Move, real_or_imagined_move(Move), Moves).
+  findall(Move, ai:real_or_imagined_move(Move), Moves).
 
 score_world(Score, _) :-
   move_set(Move_set),
@@ -53,7 +53,7 @@ score_future_boards(Scores, [], _) :-
 score_future_boards(Scores, Valid_input_points, Player) :-
   Valid_input_points = [Point|Remaining_points],
   assert(imagined_move(Point, Player)),
-  other_player(Player, Other),
+  game_configuration:other_player(Player, Other),
   findall(Achievable_score, score_world(Achievable_score, Other), Achievable_score_list),
   list_to_set(Achievable_score_list, [Score_after_move]),
   retract(imagined_move(Point, Player)),
@@ -95,7 +95,7 @@ score_after_move(Point, Player, Score) :-
   legal_imagined_move(R, C),
   Point = point(R, C),
   assert(imagined_move(Point, Player)),
-  other_player(Player, Other),
+  game_configuration:other_player(Player, Other),
   score_world(Cur_score, Other),
   retract(imagined_move(Point, Player)),
   Cur_score = Score.

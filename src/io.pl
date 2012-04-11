@@ -42,14 +42,14 @@ write_square([]) :-
 write_square([Occupant|_]) :-
   write(Occupant).
 
-print_row(R) :-
-  findall(P, ttt:move(point(R, 0), P), Square_occupant_0),
+print_row(Row) :-
+  findall(Player, ttt:move(point(Row, 0), Player), Square_occupant_0),
   write_square(Square_occupant_0),
   write('|'),
-  findall(P, ttt:move(point(R, 1), P), Square_occupant_1),
+  findall(Player, ttt:move(point(Row, 1), Player), Square_occupant_1),
   write_square(Square_occupant_1),
   write('|'),
-  findall(P, ttt:move(point(R, 2), P), Square_occupant_2),
+  findall(Player, ttt:move(point(Row, 2), Player), Square_occupant_2),
   write_square(Square_occupant_2),
   nl.
 

@@ -7,9 +7,9 @@ run_all :-
   run_tests(ai),
   consult('spec/game_configuration_spec.pl'),
   run_tests(configuration),
+  consult('spec/players_spec.pl'),
+  run_tests(players),
   consult('spec/ttt_spec.pl'),
   run_tests(ttt),
   consult('spec/io_spec.pl'),
-  run_tests(io),
-  consult('spec/players_spec.pl'),
-  run_tests(players).
+  run_tests(io).
