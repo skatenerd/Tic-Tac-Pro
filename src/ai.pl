@@ -1,4 +1,4 @@
-:-  module(ai, [unbeatable_cpu_move/2, legal_imagined_move/2, score_world/2]).
+:-  module(ai, [unbeatable_cpu_move/2, legal_imagined_move/2, score_world/2, real_or_imagined_move/1]).
 :- use_module(board_utils).
 :- use_module(game_configuration).
 :- use_module(library(lists)).
@@ -11,7 +11,7 @@ real_or_imagined_move(move(Point, Player)) :-
   real_or_imagined_move(Point, Player).
 
 real_or_imagined_move(Point, Player) :-
-  ttt:move(Point, Player).
+  board:move(Point, Player).
 
 real_or_imagined_move(Point, Player) :-
   imagined_move(Point, Player).

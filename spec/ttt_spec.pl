@@ -9,12 +9,13 @@ cleanup_assertions :-
 
 :- begin_tests(ttt).
 :- use_module(src/ttt).
+:- use_module(src/board).
 :- use_module(spec/assertions).
 
 test(input_validation) :-
   valid_input(0),
   valid_input(8),
-  ttt:assert(move(point(0,2),x)),
+  board:assert(move(point(0,2),x)),
   \+valid_input(2),
   \+valid_input("hello"),
   \+valid_input(33).
@@ -32,7 +33,7 @@ test(game_loop,
   board_utils:assert(game_over_probability(0.001)),
 
   with_output_to(codes(_), ttt:game_loop(x)),
-  assertion(board_utils:calls(game_over,ttt:move)),
+  assertion(board_utils:calls(game_over,board:move)),
   assertion(players:calls(turn,[human,x])).
   
 test(game_loop,

@@ -1,5 +1,4 @@
 :- module(io, [input_to_row_col/3, print_board/0, get_move_input/2, prompt_if_human_first/1, farewell/0]).
-:- use_module(ttt).
 
 true_or_false(y, true).
 true_or_false(yes, true).
@@ -34,7 +33,7 @@ prompt_move(Input) :-
   read(Current_input),
   valid_input(Current_input),
   input_to_row_col(Current_input, Row, Col),
-  Input=[Row, Col].
+  Input = [Row, Col].
 
 write_square([]) :-
   write('_').
@@ -43,13 +42,13 @@ write_square([Occupant|_]) :-
   write(Occupant).
 
 print_row(Row) :-
-  findall(Player, ttt:move(point(Row, 0), Player), Square_occupant_0),
+  findall(Player, board:move(point(Row, 0), Player), Square_occupant_0),
   write_square(Square_occupant_0),
   write('|'),
-  findall(Player, ttt:move(point(Row, 1), Player), Square_occupant_1),
+  findall(Player, board:move(point(Row, 1), Player), Square_occupant_1),
   write_square(Square_occupant_1),
   write('|'),
-  findall(Player, ttt:move(point(Row, 2), Player), Square_occupant_2),
+  findall(Player, board:move(point(Row, 2), Player), Square_occupant_2),
   write_square(Square_occupant_2),
   nl.
 

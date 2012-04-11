@@ -1,16 +1,15 @@
-:-  module(ttt, [configure/1, initialize_game/0, valid_input/1, move/2]).
+:-  module(ttt, [configure/1, initialize_game/0, valid_input/1]).
 :- load_files('io.pl',[redefine_module(true)]).
 :- use_module(library(lists)).
 :- use_module(board_utils).
 :- use_module(players).
 :- use_module(game_configuration).
 :- use_module(io).
-:- dynamic move/2.
 
 valid_input(Input) :-
   integer(Input),
   io:input_to_row_col(Input, Row, Col),
-  board_utils:legal(ttt:move, [Row, Col]).
+  board_utils:legal(board:move, [Row, Col]).
 
 initialize_game :-
   io:prompt_if_human_first(Human_first),
@@ -18,7 +17,7 @@ initialize_game :-
   game_loop(x).
 
 game_loop(_) :-
-  game_over(ttt:move),
+  game_over(board:move),
   io:farewell,
   cleanup.
 
@@ -31,4 +30,4 @@ game_loop(Player_alias) :-
 cleanup :-
   game_configuration:cleanup,
   ai:retractall(imagined_move(_, _)),
-  ttt:retractall(move(_, _)).
+  board:retractall(move(_, _)).
