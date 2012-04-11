@@ -18,7 +18,7 @@ test(diagonal_win_detection) :-
   assertions:assert_diagonal(x),
   board:assert(move(point(0, 0), o)),
   board:assert(move(point(0, 1), o)),
-  findall(W, winner(board:move, W), Winners),
+  findall(Winner, winner(board:move, Winner), Winners),
   member(x, Winners),
   assertions:clear_moves.
 
@@ -26,7 +26,7 @@ test(row_win_detection) :-
   assertions:assert_row(2, x),
   board:assert(move(point(1, 0), o)),
   board:assert(move(point(1, 1), o)),
-  findall(W, winner(board:move, W), Winners),
+  findall(Winner, winner(board:move, Winner), Winners),
   member(x, Winners),
   assertions:clear_moves.
 
@@ -34,7 +34,7 @@ test(col_win_detection) :-
   assertions:assert_col(0, x),
   board:assert(move(point(1, 0), o)),
   board:assert(move(point(1, 1), o)),
-  findall(W, winner(board:move, W), Winners),
+  findall(Winner, winner(board:move, Winner), Winners),
   member(x, Winners),
   assertions:clear_moves.
 
@@ -45,7 +45,7 @@ test(detects_wins_asserted_by_ai,
   ai:assert(imagined_move(point(0, 2), o)),
   board:assert(move(point(1, 0), x)),
   board:assert(move(point(2, 0), x)),
-  findall(W, winner(ai:real_or_imagined_move, W), Winners),
+  findall(Winner, winner(ai:real_or_imagined_move, Winner), Winners),
   member(o, Winners),
   assertions:clear_moves.
 

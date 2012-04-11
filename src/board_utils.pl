@@ -41,7 +41,6 @@ diagonal_winner(Move_predicate, Winner) :-
   call(Move_predicate, point(1, 1), Winner),
   call(Move_predicate, point(2, 0), Winner).
 
-
 unoccupied(Move_predicate, Row, Col) :-
   \+call(Move_predicate, point(Row, Col), _).
 
