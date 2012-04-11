@@ -12,19 +12,6 @@ test(input_validation) :-
   \+valid_input("hello"),
   \+valid_input(33).
 
-test(configuration,
-     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
-  configure(true),
-  game_configuration:move_source(x,human),
-  game_configuration:move_source(o,cpu).
-
-test(configuration,
-     [cleanup(game_configuration:retractall(move_source(_,_)))]) :-
-  configure(false),
-  game_configuration:move_source(o,human),
-  game_configuration:move_source(x,cpu),
-  game_configuration:retractall(move_source(_,_)).
-
 /*This test will randomly fail one in a hundred runs.
 Not sure if the tradeoff of a more complicated test is worth it*/
 
