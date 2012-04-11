@@ -56,15 +56,4 @@ test(unload_mocks) :-
   load_files('src/board_utils.pl',[redefine_module(true)]),
   load_files('src/players.pl',[redefine_module(true)]).
 
-/*
-I have commented this test out because it exhausts the filestream, and you cannot run it multiple times.
-Uncomment freely
-
-test(full_game_does_not_crash,
-     [cleanup(see(user_input))]) :-
-  see('spec/full_game_input.txt'),
-  with_output_to(codes(_), initialize_game),
-  \+game_configuration:move_source(_,_).*/
-
-
 :-end_tests(ttt).
