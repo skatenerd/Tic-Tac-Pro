@@ -1,4 +1,4 @@
-:- module(io, [input_to_row_col/3, print_board/0, get_move_input/2, prompt_if_human_first/1, farewell/0]).
+:- module(io, [valid_input/1, input_to_row_col/3, print_board/0, get_move_input/2, prompt_if_human_first/1, farewell/0]).
 
 true_or_false(y, true).
 true_or_false(yes, true).
@@ -34,6 +34,11 @@ prompt_move(Input) :-
   valid_input(Current_input),
   input_to_row_col(Current_input, Row, Col),
   Input = [Row, Col].
+
+valid_input(Input) :-
+  integer(Input),
+  input_to_row_col(Input, Row, Col),
+  board_utils:legal(board:move, [Row, Col]).
 
 write_square([]) :-
   write('_').

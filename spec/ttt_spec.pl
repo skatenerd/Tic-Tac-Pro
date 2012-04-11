@@ -12,14 +12,6 @@ cleanup_assertions :-
 :- use_module(src/board).
 :- use_module(spec/assertions).
 
-test(input_validation) :-
-  valid_input(0),
-  valid_input(8),
-  board:assert(move(point(0,2),x)),
-  \+valid_input(2),
-  \+valid_input("hello"),
-  \+valid_input(33).
-
 test(load_mocks) :-
   load_files('spec/mocks/io.pl',[redefine_module(true)]),
   load_files('spec/mocks/board_utils.pl',[redefine_module(true)]),
@@ -64,7 +56,7 @@ test(unload_mocks) :-
 I have commented this test out because it exhausts the filestream, and you cannot run it multiple times.
 Uncomment freely
 
-test(integration
+test(integration,
      [cleanup(see(user_input))]) :-
   see('spec/full_game_input.txt'),
   with_output_to(codes(_), initialize_game),

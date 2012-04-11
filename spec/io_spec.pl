@@ -8,6 +8,15 @@ test(input_to_row_col) :-
   input_to_row_col(4,1,1),
   input_to_row_col(8,2,2).
 
+test(input_validation) :-
+  valid_input(0),
+  valid_input(8),
+  board:assert(move(point(0,2),x)),
+  \+valid_input(2),
+  \+valid_input("hello"),
+  \+valid_input(33).
+
+
 /*
 These are commented out becauase they permanently mutate the state of the file input stream.
 I have no idea how to fix that!

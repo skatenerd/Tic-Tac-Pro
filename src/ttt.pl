@@ -1,15 +1,10 @@
-:-  module(ttt, [configure/1, initialize_game/0, valid_input/1]).
+:-  module(ttt, [configure/1, initialize_game/0]).
 :- load_files('io.pl',[redefine_module(true)]).
 :- use_module(library(lists)).
 :- use_module(board_utils).
 :- use_module(players).
 :- use_module(game_configuration).
 :- use_module(io).
-
-valid_input(Input) :-
-  integer(Input),
-  io:input_to_row_col(Input, Row, Col),
-  board_utils:legal(board:move, [Row, Col]).
 
 initialize_game :-
   io:prompt_if_human_first(Human_first),
