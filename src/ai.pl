@@ -51,7 +51,7 @@ score_world(Score, Player) :-
   findall(point(Row, Col), legal_imagined_move(Row, Col), Valid_input_points),
   score_future_boards(Scores, Valid_input_points, Player),
   player_score_pred(Player, Pred),
-  call(Pred, Score, Scores).
+  call(Pred, Scores, Score).
 
 score_future_boards(Scores, [], _) :-
   Scores = [].
