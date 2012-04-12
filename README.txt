@@ -33,11 +33,15 @@ Setting up the environment:
   Double click it to install.
   Now you can enter the repl by typing "/opt/local/bin/swipl" at the command line.
 
+Important prolog fact:
+  All inputs must be followed by a period (".").  The interpreter doesn't know when
+  you have finished typing unelss you use a period.
+
 Running the tests:
   CD to project root.
   You can run tests on modules individually by typing:
     consult('spec/my_module_spec.pl').
-    run_tests(test_grou_name).
+    run_tests(test_group_name).
   Alternatively, you can run tests on all of the modules at once by typing:
     consult('spec/run_tests.pl').
     run_all.
