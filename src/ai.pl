@@ -27,10 +27,10 @@ score_from_current_winner(-1, [o]).
 score_from_current_winner(0, []).
 
 player_score_pred(o, Pred) :-
-  Pred = min_member.
+  Pred = min_list.
 
 player_score_pred(x, Pred) :-
-  Pred = max_member.
+  Pred = max_list.
 
 score_world(Score, _) :-
   move_set(Move_set),
